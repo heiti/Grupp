@@ -1,9 +1,10 @@
+package ee.ut.math.tvt.lovilouad;
 
-public class Tere {
+public class Intro {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("Tere Maailm!");
+
 	}
 
 }
