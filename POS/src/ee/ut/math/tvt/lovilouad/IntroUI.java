@@ -6,6 +6,7 @@ public class IntroUI {
 
 	IntroUI() {
 		JFrame introFrame = new JFrame("The best POS in the World!");
+		introFrame.setLayout(null);
 		introFrame.setSize(400,300);
 		introFrame.setLocation(400, 250);
 		introFrame.setResizable(false);
