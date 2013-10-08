@@ -1,6 +1,5 @@
 package ee.ut.math.tvt.lovilouad;
 
-import java.awt.*;
 import javax.swing.*;
 
 public class IntroUI {
@@ -8,6 +7,8 @@ public class IntroUI {
 	IntroUI() {
 		JFrame introFrame = new JFrame("The best POS in the World!");
 		introFrame.setSize(400,300);
+		introFrame.setLocation(400, 250);
+		introFrame.setResizable(false);
 		introFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		introFrame.setVisible(true);
 	}
