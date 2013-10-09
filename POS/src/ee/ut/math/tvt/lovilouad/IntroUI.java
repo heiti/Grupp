@@ -20,7 +20,7 @@ public class IntroUI {
 		mainPanel.setBounds(0, 0, 500, 150);
 		mainPanel.setLayout(new GridLayout(5,1));
 		mainPanel.setBackground(new Color(248, 187, 14));
-		ImageIcon logoImage = new ImageIcon("images/lıvilıuad_logo.gif");
+		ImageIcon logoImage = new ImageIcon("images/l√µvil√µuad_logo.gif");
 		JLabel logoLabel = new JLabel(logoImage);
 		logoLabel.setBounds(0, 150, 500, 150);
 		introFrame.add(mainPanel);
@@ -29,7 +29,8 @@ public class IntroUI {
 		introFrame.setLocation(400, 250);
 		introFrame.setResizable(false);
 		introFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		introFrame.setVisible(true);
+		
+		
 		
 		try {
 			appProp.load(new FileInputStream("application.properties"));
@@ -65,7 +66,7 @@ public class IntroUI {
 		mainPanel.add(teamMembers);
 		mainPanel.add(buildVersion);
 		
-		
+		introFrame.setVisible(true);
 	}
 	//Team name
 	//Team leader
