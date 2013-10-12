@@ -16,9 +16,6 @@
 	
 	<!-- Classpath for building the application -->
 	<path id="build.classpath">
-		<fileset dir="images">
-			<include name="*.gif"/>
-		</fileset>
 		<fileset dir="lib">
 			<include name="*.jar"/>
 		</fileset>
@@ -64,7 +61,7 @@
 	
 	<!-- Run the JAR file -->
 	<target name="jrun" depends="dist" description="Runs the programme using the jar file">
-		<java jar="${dist.dir}/lovilouad.jar" fork="yes" />
+		
 	</target>
 	
 </project>
