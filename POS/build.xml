@@ -9,12 +9,12 @@
 	<property name="src.dir" value="${basedir}/src"/>
 	<property name="dist.dir" value="${basedir}/jar"/>
 	<property name="conf.dir" value="${basedir}/etc"/>
+	
 	<property name="doc.dir" value="${build.dir}/doc"/>
 	<property name="test.reports.dir" value="${build.dir}/reports/"/>
 	
-	<path id="test.classpath">
+	<path id="run.classpath">
 		<pathelement location="${build.classes.dir}"/>
-		<!-- configuration -->
 		<pathelement location="${conf.dir}"/>
 	</path>
 
@@ -45,7 +45,7 @@
 	
 	<!-- Run the POS application -->
 	<target name="run" depends="build" description="Run the POS application">
-		<java classname="ee.ut.math.tvt.lovilouad.Intro" classpathref="test.classpath" fork="yes" />
+		<java classname="ee.ut.math.tvt.lovilouad.Intro" classpathref="run.classpath" fork="yes" />
 	</target>
 	
 	<!-- Create the JAR file -->
