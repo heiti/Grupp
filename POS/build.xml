@@ -7,7 +7,7 @@
 	<property name="build.dir" value="${basedir}/build"/>
 	<property name="build.classes.dir" value="${build.dir}/classes"/>
 	<property name="src.dir" value="${basedir}/src"/>
-	<property name="dist.dir" value="${basedir}/dist"/>
+	<property name="dist.dir" value="${basedir}/jar"/>
 	<property name="conf.dir" value="${basedir}/etc"/>
 	<property name="doc.dir" value="${build.dir}/doc"/>
 	<property name="test.reports.dir" value="${build.dir}/reports/"/>
@@ -39,8 +39,17 @@
 	
 	<!-- Run the POS application -->
 	<target name="run" depends="build" description="Run the POS application">
-		<java classname="ee.ut.math.tvt.lovilouad.Intro" fork="yes" />
+		<java classname="src/ee.ut.math.tvt.lovilouad.Intro" fork="yes" />
 	</target>
 	
-
+	<!-- Create the JAR file -->
+	<target name="dist" description="Creates the jar file and adds to the version number">
+		<mkdir dir="${dist.dir}"/>
+	</target>
+	
+	<!-- Run the JAR file -->
+	<target name="jrun" description="Runs the programme using the jar file">
+		
+	</target>
+	
 </project>
