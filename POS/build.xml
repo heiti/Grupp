@@ -8,14 +8,20 @@
 	<property name="build.classes.dir" value="${build.dir}/classes"/>
 	<property name="src.dir" value="${basedir}/src"/>
 	<property name="dist.dir" value="${basedir}/jar"/>
-	<property name="conf.dir" value="${basedir}/etc"/>
 	
-	<property name="doc.dir" value="${build.dir}/doc"/>
-	<property name="test.reports.dir" value="${build.dir}/reports/"/>
-	
+	<!-- Classpath for running the application -->
 	<path id="run.classpath">
 		<pathelement location="${build.classes.dir}"/>
-		<pathelement location="${conf.dir}"/>
+	</path>
+	
+	<!-- Classpath for building the application -->
+	<path id="build.classpath">
+		<fileset dir="images">
+			<include name="*.gif"/>
+		</fileset>
+		<fileset dir="lib">
+			<include name="*.jar"/>
+		</fileset>
 	</path>
 
 	<!-- Definitions of runnable ant targets.
@@ -24,6 +30,7 @@
 	<!-- Clean up build system results -->
 	<target name="clean" description="Clean up build system results">
 		<delete dir="${build.dir}"/>
+		<delete dir="${dist.dir}"/>
 	</target>
 	
 	<!-- Build the system -->
@@ -40,6 +47,7 @@
             target="1.7"
             source="1.7"
 			includeantruntime="false">	
+			<classpath refid="build.classpath"/>
 		</javac>
 	</target>
 	
@@ -49,13 +57,14 @@
 	</target>
 	
 	<!-- Create the JAR file -->
-	<target name="dist" description="Creates the jar file and adds to the version number">
+	<target name="dist" depends="build" description="Creates the jar file and adds to the version number">
 		<mkdir dir="${dist.dir}"/>
+		<jar destfile="${dist.dir}/lovilouad.jar" basedir="${build.dir}"/>		
 	</target>
 	
 	<!-- Run the JAR file -->
-	<target name="jrun" description="Runs the programme using the jar file">
-		
+	<target name="jrun" depends="dist" description="Runs the programme using the jar file">
+		<java jar="${dist.dir}/lovilouad.jar" fork="yes" />
 	</target>
 	
 </project>
