@@ -7,7 +7,7 @@
 	<property name="build.dir" value="${basedir}/build"/>
 	<property name="build.classes.dir" value="${build.dir}/classes"/>
 	<property name="src.dir" value="${basedir}/src"/>
-	<property name="dist.dir" value="${basedir}/jar"/>
+	<property name="dist.dir" value="${build.dir}/jar"/>
 	
 	<!-- Classpath for running the application -->
 	<path id="run.classpath">
@@ -55,13 +55,34 @@
 	
 	<!-- Create the JAR file -->
 	<target name="dist" depends="build" description="Creates the jar file and adds to the version number">
+		
+		<propertyfile file="version.properties">
+			<entry  key="build.revision.number" type="int" default="1" operation="+" value="1"/>
+		</propertyfile>
+		<property file="version.properties"/>
+		<propertyfile file="version.properties">
+			<entry  key="build.number" value="${build.major.number}.${build.minor.number}.${build.revision.number}"/>
+		</propertyfile>
+		
 		<mkdir dir="${dist.dir}"/>
-		<jar destfile="${dist.dir}/lovilouad.jar" basedir="${build.dir}"/>		
+		<manifestclasspath property="manifest.classpath" jarfile="${dist.dir}/lovilouad.jar">
+			<classpath>
+		         <fileset dir="${dist.dir}" includes="*.jar"/>
+		    </classpath>
+		</manifestclasspath>
+		<jar destfile="${dist.dir}/lovilouad.jar" basedir="${build.dir}/classes">
+			<fileset dir="${basedir}" includes="images/ lib/ application.properties version.properties" />
+			<manifest>
+				<attribute name="Main-Class" value="ee.ut.math.tvt.lovilouad.Intro"/>
+			    <attribute name="Class-Path" value="${manifest.classpath}"/>
+			</manifest>
+		</jar>	
 	</target>
 	
 	<!-- Run the JAR file -->
+	<!-- Executes dist automatically -->
 	<target name="jrun" depends="dist" description="Runs the programme using the jar file">
-		
+		<java jar="${dist.dir}/lovilouad.jar" fork="yes" />
 	</target>
 	
 </project>
