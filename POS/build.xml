@@ -75,7 +75,7 @@
 		    </classpath>
 		</manifestclasspath>
 		<jar destfile="${dist.dir}/lovilouad.jar" basedir="${build.dir}/classes">
-			<fileset dir="${basedir}" includes="images/ lib/ application.properties version.properties" />
+			<fileset dir="${basedir}" includes="images/ lib/ application.properties version.properties log4j.properties" />
 			<manifest>
 				<attribute name="Main-Class" value="ee.ut.math.tvt.lovilouad.Intro"/>
 			    <attribute name="Class-Path" value="${manifest.classpath}"/>
