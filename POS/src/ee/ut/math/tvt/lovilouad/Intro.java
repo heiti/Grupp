@@ -12,7 +12,7 @@ public class Intro {
 		
 		IntroUI intro = new IntroUI();
 		
-		log.info("System executed!");
+		log.info("Intro window is opened!");
 	}
 
 }
