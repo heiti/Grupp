@@ -8,6 +8,8 @@
 	<property name="build.classes.dir" value="${build.dir}/classes"/>
 	<property name="src.dir" value="${basedir}/src"/>
 	<property name="dist.dir" value="${build.dir}/jar"/>
+	<property name="lib.dir" value="${basedir}/lib"/>
+
 	
 	<condition property="dist.has.run">
 		<available classname="" property="" file="${dist.dir}/lovilouad.jar"/>
@@ -16,11 +18,14 @@
 	<!-- Classpath for running the application -->
 	<path id="run.classpath">
 		<pathelement location="${build.classes.dir}"/>
+		<fileset dir="${lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
 	</path>
 	
 	<!-- Classpath for building the application -->
 	<path id="build.classpath">
-		<fileset dir="lib">
+		<fileset dir="${lib.dir}">
 			<include name="*.jar"/>
 		</fileset>
 	</path>
@@ -31,7 +36,6 @@
 	<!-- Clean up build system results -->
 	<target name="clean" description="Clean up build system results">
 		<delete dir="${build.dir}"/>
-		<delete dir="${dist.dir}"/>
 	</target>
 	
 	<!-- Build the system -->
@@ -71,7 +75,8 @@
 		<mkdir dir="${dist.dir}"/>
 		<manifestclasspath property="manifest.classpath" jarfile="${dist.dir}/lovilouad.jar">
 			<classpath>
-		         <fileset dir="${dist.dir}" includes="*.jar"/>
+		        <fileset dir="${dist.dir}" includes="*.jar"/>
+				<fileset dir="${lib.dir}" includes="*.jar"/>
 		    </classpath>
 		</manifestclasspath>
 		<jar destfile="${dist.dir}/lovilouad.jar" basedir="${build.dir}/classes">
