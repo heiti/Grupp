@@ -1,2 +1,0 @@
-INDEX VERSION 1.126+C:\Users\Aigar\Desktop\Tarkvara\.metadata\.plugins\org.eclipse.jdt.core
-1235227186.index
