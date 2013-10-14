@@ -8,7 +8,7 @@ import java.util.Properties;
 
 import javax.swing.*;
 
-public class IntroUI {
+public class IntroUI extends JFrame{
 	
 	
 	public IntroUI() {
@@ -70,7 +70,6 @@ public class IntroUI {
 		intro.add(logoLabel);
 		
 		introFrame.pack();
-		introFrame.setVisible(true);
 
 	
 	}
