@@ -94,4 +94,11 @@
 		<java jar="${dist.dir}/lovilouad.jar" fork="yes" />
 	</target>
 	
+	<!-- Run from the console -->
+	<target name="runc" depends="build" description="Run the application (console)">
+		<java classname="ee.ut.math.tvt.lovilouad.Intro" classpathref="run.classpath" fork="yes">
+			<arg value="console" />
+		</java>
+	</target>
+	
 </project>
