@@ -12,20 +12,17 @@ public class IntroUI extends JFrame{
 	
 	
 	public IntroUI() {
-		// TODO Auto-generated method stub
-		
 		Properties appProp = new Properties();
 		Properties verProp = new Properties();
 		
-		//Create a JFrame
-		JFrame introFrame = new JFrame("POS Intro");
-		introFrame.setLayout(null);
-		introFrame.setLocation(400, 250);
-		introFrame.setResizable(false);
-		introFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//The JFrame's settings
+		setTitle("Intro");
+		setLayout(null);
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//Create a container
-		Container intro = introFrame.getContentPane();
+		Container intro = getContentPane();
 		intro.setBackground(new Color(248, 187, 14));
 		intro.setLayout(new BoxLayout(intro, BoxLayout.Y_AXIS));
 		
@@ -68,10 +65,13 @@ public class IntroUI extends JFrame{
 		intro.add(teamMembers);
 		intro.add(buildVersion);
 		intro.add(logoLabel);
-		
-		introFrame.pack();
 
-	
+		pack();	
+		
+		//Position the JFrame
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension actualSize = getContentPane().getSize();
+		setLocation((screen.width - actualSize.width) / 2, (screen.height - actualSize.height) / 2);
 	}
 
 }
