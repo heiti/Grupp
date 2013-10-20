@@ -1,8 +1,11 @@
 package ee.ut.math.tvt.salessystem.ui.panels;
 
+import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+
+import java.awt.Event;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -10,9 +13,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.NoSuchElementException;
+import java.util.List;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,11 +41,13 @@ public class PurchaseItemPanel extends JPanel {
     private JTextField nameField;
     private JTextField priceField;
 
+    private JComboBox<String> menu;
+    private List<StockItem> wareHouse;
     private JButton addItemButton;
 
     // Warehouse model
     private SalesSystemModel model;
-
+    
     /**
      * Constructs new purchase item panel.
      * 
@@ -46,7 +56,6 @@ public class PurchaseItemPanel extends JPanel {
      */
     public PurchaseItemPanel(SalesSystemModel model) {
         this.model = model;
-
         setLayout(new GridBagLayout());
 
         add(drawDialogPane(), getDialogPaneConstraints());
@@ -78,30 +87,41 @@ public class PurchaseItemPanel extends JPanel {
 
         // Create the panel
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(5, 2));
+        panel.setLayout(new GridLayout(6, 2));
         panel.setBorder(BorderFactory.createTitledBorder("Product"));
-
+        
+        // Create drop-down product selection menu
+        menu = new JComboBox<String>();
+        menu.addItem("");
+    	wareHouse = model.getSalesDomainController().loadWarehouseState();
+    	for (StockItem item: wareHouse){
+    		menu.addItem(item.getName());
+    	}
+    	
+        
         // Initialize the textfields
         barCodeField = new JTextField();
         quantityField = new JTextField("1");
         nameField = new JTextField();
         priceField = new JTextField();
 
-        // Fill the dialog fields if the bar code text field loses focus
-        barCodeField.addFocusListener(new FocusListener() {
-            public void focusGained(FocusEvent e) {
-            }
-
-            public void focusLost(FocusEvent e) {
-                fillDialogFields();
-            }
+        // Fill the dialog fields if the selected item in the menu changes
+        menu.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				 fillDialogFields();
+			}
         });
 
         nameField.setEditable(false);
         priceField.setEditable(false);
+        barCodeField.setEditable(false);
 
         // == Add components to the panel
-
+        
+        // - drop-down menu
+        panel.add(new JLabel("Selection:"));
+        panel.add(menu);
+        
         // - bar code
         panel.add(new JLabel("Bar code:"));
         panel.add(barCodeField);
@@ -136,6 +156,7 @@ public class PurchaseItemPanel extends JPanel {
         StockItem stockItem = getStockItemByBarcode();
 
         if (stockItem != null) {
+        	barCodeField.setText(String.valueOf(stockItem.getId()));
             nameField.setText(stockItem.getName());
             String priceString = String.valueOf(stockItem.getPrice());
             priceField.setText(priceString);
@@ -147,9 +168,15 @@ public class PurchaseItemPanel extends JPanel {
     // Search the warehouse for a StockItem with the bar code entered
     // to the barCode textfield.
     private StockItem getStockItemByBarcode() {
+    	String itemName = (String) menu.getSelectedItem();
         try {
-            int code = Integer.parseInt(barCodeField.getText());
-            return model.getWarehouseTableModel().getItemById(code);
+        	for (StockItem item: wareHouse) {
+        		if (item.getName() == itemName) {
+        			int code = item.getId().intValue();
+        			return model.getWarehouseTableModel().getItemById(code);
+        		}
+        	}
+            return null;
         } catch (NumberFormatException ex) {
             return null;
         } catch (NoSuchElementException ex) {

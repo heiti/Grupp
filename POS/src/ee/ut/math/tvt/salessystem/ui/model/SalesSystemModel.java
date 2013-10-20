@@ -42,4 +42,8 @@ public class SalesSystemModel {
         return currentPurchaseTableModel;
     }
     
+    public SalesDomainController getSalesDomainController() {
+        return domainController;
+    }
+    
 }
