@@ -32,7 +32,9 @@ public class SalesSystemUI extends JFrame {
 
   // Instances of tab classes
   private PurchaseTab purchaseTab;
-  private HistoryTab historyTab;
+
+
+private HistoryTab historyTab;
   private StockTab stockTab;
 
   /**
@@ -84,6 +86,10 @@ public class SalesSystemUI extends JFrame {
 
     getContentPane().add(tabbedPane);
   }
+  
+  public PurchaseTab getPurchaseTab() {
+	return purchaseTab;
+}
 
 }
 
