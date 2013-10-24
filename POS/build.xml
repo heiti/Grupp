@@ -9,6 +9,7 @@
 	<property name="src.dir" value="${basedir}/src"/>
 	<property name="dist.dir" value="${build.dir}/jar"/>
 	<property name="lib.dir" value="${basedir}/lib"/>
+	<property file="version.properties" />
 
 	
 	<condition property="dist.has.run">
@@ -101,4 +102,47 @@
 		</java>
 	</target>
 	
+	<!-- Commit all changes with users message and pushes them to GitHub server -->
+	<target name="git_commit" description="Commits all the changes to GitHub server">
+		<!--Select all the changes for commit-->
+		<exec executable="git" dir=".">
+			<arg value="add" />
+			<arg value="--all" />
+		</exec>
+		<!--Ask for commit message and commit-->
+		<input message="Please insert comment for commit, default is build number:"
+			addproperty="commit-comment" defaultvalue="Version ${build.number}" />
+		<echo message="Commit comment: ${commit-comment}" />
+		<exec executable="git" dir=".">
+			<arg value="commit" />
+			<arg value="-m" />
+			<arg value="${commit-comment}" />
+		</exec>
+		<!--Push changes to GitHub server-->
+		<exec executable="git" dir=".">
+			<arg value="push"/>
+			<arg value="origin"/>
+			<arg value="master"/>
+		</exec>
+	</target>
+	
+	<!-- Asks tag name and comment, creates a tag and pushes tags to GitHub server -->
+	<target name="git_tag" description="Creates a tag and pushes all tags to GitHub server">
+		<!--Ask for tag name and comment-->
+		<input message="Please insert tag's name" addproperty="tag-name" defaultvalue="homework_${build.revision.number}" />
+		<input message="Please insert tag's comment" addproperty="tag-comment" defaultvalue="Homework ${build.revision.number}" />
+		<!--Create a tag using user input-->
+		<exec executable="git" dir=".">
+			<arg value="tag"/>
+			<arg value="-a"/>
+			<arg value="${tag-name}"/>
+			<arg value="-m"/>
+			<arg value="${tag-comment}"/>
+		</exec>
+		<!--Push all tags to GitHub server-->
+		<exec executable="git" dir=".">
+			<arg value="push"/>
+			<arg value="--tags"/>			
+		</exec>
+	</target>
 </project>
