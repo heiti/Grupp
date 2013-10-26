@@ -60,7 +60,7 @@ public class HistoryTab {
         
         
         panel.add(historyPane, gc);
-       
+               
         return panel;
     }
     

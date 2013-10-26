@@ -14,6 +14,7 @@ import javax.swing.table.JTableHeader;
 
 import ee.ut.math.tvt.salessystem.domain.controller.impl.SalesDomainControllerImpl;
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.tabs.HistoryTab;
 
@@ -43,8 +44,14 @@ public class HistoryTabPanel extends JPanel {
 	      table.addMouseListener(new MouseAdapter(){
 	    	  public void mouseClicked(MouseEvent e){
 	    		  if(e.getClickCount() > 0){
+	    			  System.out.println("CLICK");
+	    			  HistoryItem clickedSale = model.getHistoryTableModel().getHistoryItemByID((long)table.getSelectedRow());
+	    			  System.out.println("Võtsin elemendi summaga:  " + clickedSale.getTotalSum());
+	    			  System.out.println(clickedSale.getItems().get(0));
+	    			  //model.getHistoryPurchaseTableModel().populateWithData(clickedSale.getItems());
 	    			  
-		    		 
+	    			  model.getHistoryPurchaseTableModel().add(clickedSale.getItems());
+	    			  model.getHistoryPurchaseTableModel().fireTableDataChanged();
 		    		  // TODO - show currently selected sale in a table above the Sales History Table
 	    		  
 	    		  }
@@ -77,7 +84,7 @@ public class HistoryTabPanel extends JPanel {
 
 		// Create the table, put it inside a scollPane,
 		// and add the scrollPane to the basketPanel.
-		JTable table = new JTable(model.getCurrentPurchaseTableModel());
+		JTable table = new JTable(model.getHistoryPurchaseTableModel());
 		JScrollPane scrollPane = new JScrollPane(table);
 
 		basketPane.add(scrollPane, getBacketScrollPaneConstraints());

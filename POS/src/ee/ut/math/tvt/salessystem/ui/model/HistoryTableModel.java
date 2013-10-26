@@ -30,6 +30,9 @@ public class HistoryTableModel extends SalesSystemTableModel<HistoryItem> {
 		return data;
 	}
 
+	public void setData(List<HistoryItem> data) {
+		this.data = data;
+	}
 	@Override
 	protected Object getColumnValue(HistoryItem item, int columnIndex) {
 		switch (columnIndex) {

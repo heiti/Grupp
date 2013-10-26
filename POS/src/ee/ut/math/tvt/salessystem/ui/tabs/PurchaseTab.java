@@ -17,6 +17,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -180,8 +181,16 @@ public class PurchaseTab {
 		List<SoldItem> SoldItems = model.getCurrentPurchaseTableModel().getTableRows();
 		// Get ID for HistoryItem
 		Long id = (long) model.getHistoryTableModel().getRowCount();
+		System.out.println("HISTORY ID:  " + id);
 		HistoryItem historyItem = new HistoryItem(SoldItems,id);
-		//model.getHistoryTableModel().getData().add(historyItem);
+		try{
+			model.getHistoryTableModel().getData().add(historyItem);
+		}
+		catch(NullPointerException e){
+			List<HistoryItem> historyItems = new ArrayList<>();
+			historyItems.add(historyItem);
+			model.getHistoryTableModel().setData(historyItems);
+		}
 		model.getHistoryTableModel().getTableRows().add(historyItem);
 		model.getHistoryTableModel().fireTableDataChanged();
 				
