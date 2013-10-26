@@ -1,6 +1,8 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
+import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
@@ -15,6 +17,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -171,6 +174,18 @@ public class PurchaseTab {
 
 	/** Event handler for the <code>accept payment</code> event. */
 	protected void acceptPaymentButtonClicked() {
+		
+		// Adding sales to History
+		
+		List<SoldItem> SoldItems = model.getCurrentPurchaseTableModel().getTableRows();
+		// Get ID for HistoryItem
+		Long id = (long) model.getHistoryTableModel().getRowCount();
+		HistoryItem historyItem = new HistoryItem(SoldItems,id);
+		//model.getHistoryTableModel().getData().add(historyItem);
+		model.getHistoryTableModel().getTableRows().add(historyItem);
+		model.getHistoryTableModel().fireTableDataChanged();
+				
+			
 		log.info("Sale complete");
 		purchasePane.resetPurchase();
 		try {

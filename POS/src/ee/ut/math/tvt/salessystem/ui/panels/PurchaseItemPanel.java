@@ -1,5 +1,6 @@
 package ee.ut.math.tvt.salessystem.ui.panels;
 
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
@@ -130,6 +131,14 @@ public class PurchaseItemPanel extends JPanel {
 
 		// Buttons for confirming/canceling order
 		panel.add(acceptOrder);
+		acceptOrder.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				
+				// Adding sales to history is implemented in a listener in the PurchaseTab 
+				// Class in the acceptPaymentButtonClicked() method.
+				
+			}
+		});
 		acceptOrder.setEnabled(false);
 		
 		panel.add(cancelOrder);

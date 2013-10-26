@@ -33,8 +33,8 @@ public class SalesSystemUI extends JFrame {
   // Instances of tab classes
   private PurchaseTab purchaseTab;
 
-
-private HistoryTab historyTab;
+  private HistoryTab historyTab;
+  
   private StockTab stockTab;
 
   /**
@@ -46,7 +46,7 @@ private HistoryTab historyTab;
     this.model = new SalesSystemModel(domainController);
 
     // Create singleton instances of the tab classes
-    historyTab = new HistoryTab();
+    historyTab = new HistoryTab(domainController,model);
     stockTab = new StockTab(model);
     purchaseTab = new PurchaseTab(domainController, model);
 
@@ -77,7 +77,11 @@ private HistoryTab historyTab;
     });
   }
 
-  private void drawWidgets() {
+  public HistoryTab getHistoryTab() {
+	return historyTab;
+}
+
+private void drawWidgets() {
     JTabbedPane tabbedPane = new JTabbedPane();
 
     tabbedPane.add("Point-of-sale", purchaseTab.draw());
