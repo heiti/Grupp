@@ -111,7 +111,8 @@ public class PurchaseItemPanel extends JPanel {
 		panel.add(new JLabel("Paid amount:"));
 		panel.add(paidSum);
 		paidSum.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e) {}
+			public void changedUpdate(DocumentEvent e) {
+			}
 
 			public void insertUpdate(DocumentEvent arg0) {
 				calculateChange();
@@ -129,11 +130,12 @@ public class PurchaseItemPanel extends JPanel {
 
 		// Buttons for confirming/canceling order
 		panel.add(acceptOrder);
-		
-		// Listener for JButton "acceptOrder" is implemented in the PurchaseTab class
-		
+
+		// Listener for JButton "acceptOrder" is implemented in the PurchaseTab
+		// class
+
 		acceptOrder.setEnabled(false);
-		
+
 		panel.add(cancelOrder);
 		cancelOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -142,7 +144,7 @@ public class PurchaseItemPanel extends JPanel {
 				resetPurchase();
 			}
 		});
-		
+
 		return panel;
 	}
 
@@ -166,7 +168,7 @@ public class PurchaseItemPanel extends JPanel {
 		menu = new JComboBox<String>();
 		menu.addItem("");
 		wareHouse = model.getSalesDomainController().loadWarehouseState();
-		//wareHouse = model.getWarehouseTableModel().getTableRows();
+		// wareHouse = model.getWarehouseTableModel().getTableRows();
 		for (StockItem item : wareHouse) {
 			menu.addItem(item.getName());
 		}
@@ -176,7 +178,6 @@ public class PurchaseItemPanel extends JPanel {
 		quantityField = new JTextField("1");
 		nameField = new JTextField();
 		priceField = new JTextField();
-		
 
 		// Fill the dialog fields if the selected item in the menu changes
 		menu.addItemListener(new ItemListener() {
@@ -225,16 +226,17 @@ public class PurchaseItemPanel extends JPanel {
 
 		return panel;
 	}
-	
-	// Update menu so that items recently added to the warehouse can be displayed.
-	
-	public void updateMenu(){
+
+	// Update menu so that items recently added to the warehouse can be
+	// displayed.
+
+	public void updateMenu() {
 		menu.removeAllItems();
 		menu.addItem("");
-		for(StockItem item : model.getWarehouseTableModel().getTableRows()){
+		for (StockItem item : model.getWarehouseTableModel().getTableRows()) {
 			menu.addItem(item.getName());
 		}
-		
+
 	}
 
 	// Fill dialog with data from the "database".
@@ -256,7 +258,13 @@ public class PurchaseItemPanel extends JPanel {
 	private StockItem getStockItemByBarcode() {
 		String itemName = (String) menu.getSelectedItem();
 		try {
-			for (StockItem item : model.getWarehouseTableModel().getTableRows() ) { // Added model.getWarehouse instead of static list warehouse, 
+			for (StockItem item : model.getWarehouseTableModel().getTableRows()) { // Added
+																					// model.getWarehouse
+																					// instead
+																					// of
+																					// static
+																					// list
+																					// warehouse,
 				if (item.getName() == itemName) {
 					int code = item.getId().intValue();
 					return model.getWarehouseTableModel().getItemById(code);
@@ -280,31 +288,31 @@ public class PurchaseItemPanel extends JPanel {
 			int quantity;
 			try {
 				quantity = Integer.parseInt(quantityField.getText());
-			} catch (NumberFormatException ex) {
-				quantity = 1;
-			}
-			// Check if warehouse has enough items available for purchase.
-			int orderTotal = quantity;
-			List<SoldItem> cartItems = model.getCurrentPurchaseTableModel()
-					.getTableRows();
-			for (SoldItem item : cartItems) {
-				if (stockItem.getName() == item.getName()) {
-					orderTotal += item.getQuantity();
-					break;
+				// Check if warehouse has enough items available for purchase.
+				int orderTotal = quantity;
+				if (quantity > 0) {
+					List<SoldItem> cartItems = model
+							.getCurrentPurchaseTableModel().getTableRows();
+					for (SoldItem item : cartItems) {
+						if (stockItem.getName() == item.getName()) {
+							orderTotal += item.getQuantity();
+							break;
+						}
+					}
+					if (orderTotal > stockItem.getQuantity()) {
+						JOptionPane.showMessageDialog(null,
+								"Not enough items in stock.", "Warning",
+								JOptionPane.WARNING_MESSAGE);
+					} else {
+						model.getCurrentPurchaseTableModel().addItem(
+								new SoldItem(stockItem, quantity));
+					}
 				}
-			}
-			if (orderTotal > stockItem.getQuantity()) {
-				JOptionPane.showMessageDialog(null,
-						"Not enough items in stock.", "Warning",
-						JOptionPane.WARNING_MESSAGE);
-			} else {
-				model.getCurrentPurchaseTableModel().addItem(
-						new SoldItem(stockItem, quantity));
+			} catch (NumberFormatException ex) {
 			}
 		}
 	}
-	
-	
+
 	// Calculate the amount of change depending on the amount paid.
 	public void calculateChange() {
 		try {
@@ -312,7 +320,8 @@ public class PurchaseItemPanel extends JPanel {
 					.parseDouble(totalSum.getText())) {
 				double change = Double.parseDouble(paidSum.getText())
 						- Double.parseDouble(totalSum.getText());
-				changeSum.setText((new Double((double)Math.round(change*100)/100)).toString());
+				changeSum.setText((new Double(
+						(double) Math.round(change * 100) / 100)).toString());
 				acceptOrder.setEnabled(true);
 			} else {
 				acceptOrder.setEnabled(false);
@@ -345,7 +354,7 @@ public class PurchaseItemPanel extends JPanel {
 		nameField.setText("");
 		priceField.setText("");
 	}
-	
+
 	public void resetPurchase() {
 		totalSum.setText("");
 		paidSum.setText("");
