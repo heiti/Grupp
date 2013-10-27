@@ -20,6 +20,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
 
+import org.apache.log4j.Logger;
+
 
 public class StockTab {
 
@@ -168,6 +170,7 @@ public class StockTab {
 		  else  JOptionPane.showMessageDialog(null,
 					"Id already used for another item!", "Warning",
 					JOptionPane.WARNING_MESSAGE);
+		  
 		 
 	  }
 	  catch(NumberFormatException e){

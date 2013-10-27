@@ -14,23 +14,20 @@ import ee.ut.math.tvt.salessystem.ui.model.StockTableModel;
  */
 public class SalesDomainControllerImpl implements SalesDomainController {
 	
-
+	// we're not really using any of those methods, see PurchaseTab and PurchaseItemPanel instead
 	public void submitCurrentPurchase(List<SoldItem> goods) throws VerificationFailedException {
 
-		// XXX - Save purchase
 	}
-
-	public void cancelCurrentPurchase() throws VerificationFailedException {				
-		// XXX - Cancel current purchase
+	public void cancelCurrentPurchase() throws VerificationFailedException {
+		
+	}
+	public void startNewPurchase() throws VerificationFailedException {
+		
 	}
 	
-
-	public void startNewPurchase() throws VerificationFailedException {
-		// XXX - Start new purchase
-	}
+	
 	// Added warehouse as argument, so that loadWarehouseState can be called from other classes using model.get...
 	public List<StockItem> loadWarehouseState(StockTableModel warehouse) {
-		// XXX mock implementation
 		List<StockItem> dataset = new ArrayList<StockItem>();
 		
 		StockItem chips = new StockItem(1l, "Lays chips", "Potato chips", 11.0, 5);
@@ -42,17 +39,12 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		dataset.add(chupaChups);
 		dataset.add(frankfurters);
 		dataset.add(beer);
-//		
-//		for(StockItem item : warehouse.getTableRows()){
-//			dataset.add(item);
-//		}
-//		
+		
 		return dataset;
 	}
 
 	@Override
 	public List<StockItem> loadWarehouseState() {
-		// XXX mock implementation
 		List<StockItem> dataset = new ArrayList<StockItem>();
 		
 		StockItem chips = new StockItem(1l, "Lays chips", "Potato chips", 11.0, 5);

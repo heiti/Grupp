@@ -144,24 +144,25 @@ public class PurchaseTab {
 
 	/** Event handler for the <code>new purchase</code> event. */
 	protected void newPurchaseButtonClicked() {
-		// Update Menu
-		
-		purchasePane.updateMenu();
-		
 		log.info("New sale process started");
+		
+		// Update Menu
 		try {
-			domainController.startNewPurchase();
+			purchasePane.updateMenu();
 			startNewSale();
 		} catch (VerificationFailedException e1) {
+			// TODO Auto-generated catch block
 			log.error(e1.getMessage());
 		}
 	}
 
 	/** Event handler for the <code>cancel purchase</code> event. */
 	protected void cancelPurchaseButtonClicked() {
-		purchasePane.getComponents()[1].setVisible(false);
 		log.info("Sale cancelled");
+		
+		
 		try {
+			purchasePane.getComponents()[1].setVisible(false);
 			purchasePane.getMenu().setSelectedIndex(0);  // Magic happens - menu is reloaded.
 			domainController.cancelCurrentPurchase();
 			endSale();
@@ -173,6 +174,7 @@ public class PurchaseTab {
 
 	/** Event handler for the <code>accept payment</code> event. */
 	protected void acceptPaymentButtonClicked() {
+		log.info("Payment process started");
 		
 		// Adding sales to History
 		

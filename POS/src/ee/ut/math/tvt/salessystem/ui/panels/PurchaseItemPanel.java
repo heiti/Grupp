@@ -2,6 +2,7 @@ package ee.ut.math.tvt.salessystem.ui.panels;
 
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
+import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 import java.awt.GridBagConstraints;
@@ -173,7 +174,7 @@ public class PurchaseItemPanel extends JPanel {
 			menu.addItem(item.getName());
 		}
 
-		// Initialize the textfields
+		// Initialize the text fields
 		barCodeField = new JTextField();
 		quantityField = new JTextField("1");
 		nameField = new JTextField();
@@ -230,7 +231,7 @@ public class PurchaseItemPanel extends JPanel {
 	// Update menu so that items recently added to the warehouse can be
 	// displayed.
 
-	public void updateMenu() {
+	public void updateMenu() throws VerificationFailedException {
 		menu.removeAllItems();
 		menu.addItem("");
 		for (StockItem item : model.getWarehouseTableModel().getTableRows()) {
