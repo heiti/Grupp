@@ -33,7 +33,7 @@ public class AddItemPanel extends JPanel {
 		
 		JLabel idLabel = new JLabel("Id");
 		JLabel nameLabel = new JLabel("Name");
-		JLabel descLabel = new JLabel("Desc");
+		JLabel descLabel = new JLabel("Description");
 		JLabel priceLabel = new JLabel("Price");
 		JLabel quantityLabel = new JLabel("Quantity");
 		
