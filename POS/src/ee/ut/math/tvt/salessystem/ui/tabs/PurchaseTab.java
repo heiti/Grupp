@@ -214,13 +214,15 @@ public class PurchaseTab {
 	// Display the payment screen, when order is confirmed
 	protected void submitPurchaseButtonClicked() {
 		List<SoldItem> cartItems = model.getCurrentPurchaseTableModel().getTableRows();
-		double sum = 0;
-		for (SoldItem item: cartItems) {
-			sum += item.getSum();
+		if (cartItems.size() != 0) {
+			double sum = 0;
+			for (SoldItem item: cartItems) {
+				sum += item.getSum();
+			}
+			purchasePane.getTotalSum().setText((new Double(sum)).toString());
+			purchasePane.getAddItemButton().setEnabled(false);
+			purchasePane.getComponents()[1].setVisible(true);
 		}
-		purchasePane.getTotalSum().setText((new Double(sum)).toString());
-		purchasePane.getAddItemButton().setEnabled(false);
-		purchasePane.getComponents()[1].setVisible(true);
 	}
 
 	/*
