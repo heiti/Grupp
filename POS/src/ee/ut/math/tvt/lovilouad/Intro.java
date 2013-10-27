@@ -29,17 +29,16 @@ public class Intro {
 			IntroUI introUI = new IntroUI();
 			introUI.setVisible(true);
 			introUI.setAlwaysOnTop(true);
-
 			final SalesSystemUI ui = new SalesSystemUI(domainController);
-			
-			ui.setVisible(true);
-
-			introUI.setAlwaysOnTop(false);
+						
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(1500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			ui.setVisible(true);
+
+			introUI.setAlwaysOnTop(false);
 			introUI.setVisible(false);
 		}
 	}
