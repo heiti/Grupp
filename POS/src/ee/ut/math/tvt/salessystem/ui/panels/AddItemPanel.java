@@ -27,7 +27,9 @@ public class AddItemPanel extends JPanel {
 	
 	public JComponent drawAddingPanel(){
 		JPanel panel = new JPanel();
-		panel.setLayout(new FlowLayout());
+		FlowLayout layout = new FlowLayout();
+		layout.setHgap(0);
+		panel.setLayout(layout);
 		
 		JLabel idLabel = new JLabel("Id");
 		JLabel nameLabel = new JLabel("Name");
@@ -42,16 +44,31 @@ public class AddItemPanel extends JPanel {
 		QuantityField = new JTextField(6);
 		
 		
-		panel.add(idLabel);
-		panel.add(IdField);
-		panel.add(nameLabel);
-		panel.add(nameField);
-		panel.add(descLabel);
-		panel.add(descField);
-		panel.add(priceLabel);
-		panel.add(PriceField);
-		panel.add(quantityLabel);
-		panel.add(QuantityField);
+		JPanel IdPanel = new JPanel();
+		JPanel NamePanel = new JPanel();
+		JPanel descPanel = new JPanel();
+		JPanel PricePanel = new JPanel();
+		JPanel QuantPanel = new JPanel();
+		
+		
+		IdPanel.add(idLabel);
+		IdPanel.add(IdField);
+		NamePanel.add(nameLabel);
+		NamePanel.add(nameField);
+		descPanel.add(descLabel);
+		descPanel.add(descField);
+		PricePanel.add(priceLabel);
+		PricePanel.add(PriceField);
+		QuantPanel.add(quantityLabel);
+		QuantPanel.add(QuantityField);
+		
+		panel.add(IdPanel);
+		panel.add(NamePanel);
+		panel.add(descPanel);
+		panel.add(PricePanel);
+		panel.add(QuantPanel);
+		
+		
 		
 		return panel;
 	}

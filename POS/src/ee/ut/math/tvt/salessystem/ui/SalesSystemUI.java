@@ -87,7 +87,7 @@ private void drawWidgets() {
     tabbedPane.add("Point-of-sale", purchaseTab.draw());
     tabbedPane.add("Warehouse", stockTab.draw());
     tabbedPane.add("History", historyTab.draw());
-
+    tabbedPane.setMaximumSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 400));
     getContentPane().add(tabbedPane);
   }
   

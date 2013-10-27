@@ -43,18 +43,26 @@ public class StockTab {
     GridBagConstraints gc = new GridBagConstraints();
     panel.setLayout(gb);
 
-    gc.fill = GridBagConstraints.HORIZONTAL;
+    gc.fill = GridBagConstraints.BOTH;
     gc.anchor = GridBagConstraints.NORTH;
     gc.gridwidth = GridBagConstraints.REMAINDER;
-    gc.weightx = 1.0d;
-    gc.weighty = 0d;
+    gc.weightx = 1.0;
+    gc.weighty = 1.5d;
+    
+    gc.gridx = 0;
+    gc.gridy = 0;
+    
 
     panel.add(drawStockMenuPane(), gc);
 
-    gc.weighty = 1.0;
+    gc.weighty = 10.0d;
     gc.fill = GridBagConstraints.BOTH;
+    gc.gridx = 0;
+    gc.gridy = 1;
     panel.add(drawStockMainPane(), gc);
-;
+    
+    
+
     return panel;
   }
 
@@ -68,7 +76,7 @@ public class StockTab {
 
     panel.setLayout(gb);
     gc.anchor = GridBagConstraints.WEST;
-    gc.weightx = 0;
+    
 
     addItem = new JButton("     Add     ");
     addItem.addActionListener(new ActionListener(){
@@ -77,11 +85,17 @@ public class StockTab {
 			addNewItem();
 		}
     }); // Listener that calls the addNewItem method,
-    gc.gridwidth = GridBagConstraints.RELATIVE;
-    gc.weightx = 1.0;
+//    gc.gridwidth = GridBagConstraints.RELATIVE;
+    gc.weightx = 1;
+    gc.weighty = 1;
     gc.gridx = 0;
+    gc.fill = GridBagConstraints.BOTH;
+    
     panel.add(addItem, gc);
     
+    gc.fill = GridBagConstraints.BOTH;
+    gc.weightx = 5.0;
+    gc.weighty = 1.0;
     gc.gridwidth = GridBagConstraints.REMAINDER;
     gc.gridx = 1;
     panel.add(addToWarehouse.drawAddingPanel(),gc);
@@ -161,10 +175,6 @@ public class StockTab {
 					"Can't add new item, please check fields!", "Warning",
 					JOptionPane.WARNING_MESSAGE);
 	  }
-	  
-	 
-	  
-	  
 	  
 	  
   }

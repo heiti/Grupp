@@ -1,5 +1,8 @@
 package ee.ut.math.tvt.lovilouad;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
@@ -28,6 +31,7 @@ public class Intro {
 			introUI.setAlwaysOnTop(true);
 
 			final SalesSystemUI ui = new SalesSystemUI(domainController);
+			
 			ui.setVisible(true);
 
 			introUI.setAlwaysOnTop(false);
