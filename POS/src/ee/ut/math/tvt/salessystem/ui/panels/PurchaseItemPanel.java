@@ -1,9 +1,7 @@
 package ee.ut.math.tvt.salessystem.ui.panels;
 
-import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
-import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 import java.awt.GridBagConstraints;
@@ -131,18 +129,9 @@ public class PurchaseItemPanel extends JPanel {
 
 		// Buttons for confirming/canceling order
 		panel.add(acceptOrder);
-//		acceptOrder.addActionListener(new ActionListener(){
-//			public void actionPerformed(ActionEvent e) {
-//				
-//				// Adding sales to history is implemented in a listener in the PurchaseTab 
-//				// Class in the acceptPaymentButtonClicked() method.
-//				
-//				// Decreasing quantities of warehouse items if purchase accepted
-//				model.getCurrentPurchaseTableModel().getTableRows(); // - accepted 
-//				model.getWarehouseTableModel().editData();
-//				
-//			}
-//		});
+		
+		// Listener for JButton "acceptOrder" is implemented in the PurchaseTab class
+		
 		acceptOrder.setEnabled(false);
 		
 		panel.add(cancelOrder);
@@ -176,7 +165,7 @@ public class PurchaseItemPanel extends JPanel {
 		// Create drop-down product selection menu
 		menu = new JComboBox<String>();
 		menu.addItem("");
-		wareHouse = model.getSalesDomainController().loadWarehouseState(model.getWarehouseTableModel());
+		wareHouse = model.getSalesDomainController().loadWarehouseState();
 		//wareHouse = model.getWarehouseTableModel().getTableRows();
 		for (StockItem item : wareHouse) {
 			menu.addItem(item.getName());
@@ -188,18 +177,6 @@ public class PurchaseItemPanel extends JPanel {
 		nameField = new JTextField();
 		priceField = new JTextField();
 		
-//		menu.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				menu.removeAll();
-//				wareHouse = model.getWarehouseTableModel().getTableRows();
-//				for (StockItem item : wareHouse) {
-//					menu.addItem(item.getName());
-//				}
-//				
-//			}
-//		} );
 
 		// Fill the dialog fields if the selected item in the menu changes
 		menu.addItemListener(new ItemListener() {
@@ -248,6 +225,17 @@ public class PurchaseItemPanel extends JPanel {
 
 		return panel;
 	}
+	
+	// Update menu so that items recently added to the warehouse can be displayed.
+	
+	public void updateMenu(){
+		menu.removeAllItems();
+		menu.addItem("");
+		for(StockItem item : model.getWarehouseTableModel().getTableRows()){
+			menu.addItem(item.getName());
+		}
+		
+	}
 
 	// Fill dialog with data from the "database".
 	public void fillDialogFields() {
@@ -268,7 +256,7 @@ public class PurchaseItemPanel extends JPanel {
 	private StockItem getStockItemByBarcode() {
 		String itemName = (String) menu.getSelectedItem();
 		try {
-			for (StockItem item : wareHouse) {
+			for (StockItem item : model.getWarehouseTableModel().getTableRows() ) { // Added model.getWarehouse instead of static list warehouse, 
 				if (item.getName() == itemName) {
 					int code = item.getId().intValue();
 					return model.getWarehouseTableModel().getItemById(code);

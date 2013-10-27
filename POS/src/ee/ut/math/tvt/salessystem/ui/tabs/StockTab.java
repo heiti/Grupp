@@ -18,8 +18,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.table.JTableHeader;
 
 
@@ -142,7 +140,16 @@ public class StockTab {
 		  
 		  if(allowedToAdd){
 			  model.getWarehouseTableModel().addItem(newItem);
-			  model.getWarehouseTableModel().fireTableDataChanged();	  
+			  model.getWarehouseTableModel().fireTableDataChanged();
+			  
+			  // Reset fields only, when entry succeeded
+			  // to avoid refilling all fields in case there was an 
+			  // error caused by a typo or smth.
+			  addToWarehouse.getIdField().setText("");
+			  addToWarehouse.getNameField().setText("");
+			  addToWarehouse.getDescField().setText("");
+			  addToWarehouse.getPriceField().setText("");
+			  addToWarehouse.getQuantityField().setText("");
 		  }
 		  else  JOptionPane.showMessageDialog(null,
 					"Id already used for another item!", "Warning",
@@ -155,11 +162,9 @@ public class StockTab {
 					JOptionPane.WARNING_MESSAGE);
 	  }
 	  
-	  addToWarehouse.getIdField().setText("");
-	  addToWarehouse.getNameField().setText("");
-	  addToWarehouse.getDescField().setText("");
-	  addToWarehouse.getPriceField().setText("");
-	  addToWarehouse.getQuantityField().setText("");
+	 
+	  
+	  
 	  
 	  
   }

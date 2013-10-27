@@ -35,7 +35,6 @@ public class HistoryPurchaseTableModel extends SalesSystemTableModel<SoldItem> {
 	public void add(List<SoldItem> items) {
 		rows.clear();
 		for(SoldItem item : items){
-			System.out.println("lisan elementi");
 			rows.add(item);
 		}
 		

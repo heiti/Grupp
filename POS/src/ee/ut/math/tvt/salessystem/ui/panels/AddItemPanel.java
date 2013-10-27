@@ -1,8 +1,6 @@
 package ee.ut.math.tvt.salessystem.ui.panels;
 
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;

@@ -2,7 +2,6 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
-import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
@@ -10,20 +9,15 @@ import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
@@ -150,6 +144,10 @@ public class PurchaseTab {
 
 	/** Event handler for the <code>new purchase</code> event. */
 	protected void newPurchaseButtonClicked() {
+		// Update Menu
+		
+		purchasePane.updateMenu();
+		
 		log.info("New sale process started");
 		try {
 			domainController.startNewPurchase();
@@ -164,7 +162,7 @@ public class PurchaseTab {
 		purchasePane.getComponents()[1].setVisible(false);
 		log.info("Sale cancelled");
 		try {
-			purchasePane.getMenu().setSelectedIndex(0);
+			purchasePane.getMenu().setSelectedIndex(0);  // Magic happens - menu is reloaded.
 			domainController.cancelCurrentPurchase();
 			endSale();
 			model.getCurrentPurchaseTableModel().clear();
@@ -180,7 +178,7 @@ public class PurchaseTab {
 		
 		List<SoldItem> SoldItems = model.getCurrentPurchaseTableModel().getTableRows();
 		Long id = (long) model.getHistoryTableModel().getRowCount();
-		System.out.println("HISTORY ID:  " + id);
+		
 		HistoryItem historyItem = new HistoryItem(SoldItems,id);
 		try{
 			model.getHistoryTableModel().getData().add(historyItem);
