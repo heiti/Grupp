@@ -131,14 +131,18 @@ public class PurchaseItemPanel extends JPanel {
 
 		// Buttons for confirming/canceling order
 		panel.add(acceptOrder);
-		acceptOrder.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				
-				// Adding sales to history is implemented in a listener in the PurchaseTab 
-				// Class in the acceptPaymentButtonClicked() method.
-				
-			}
-		});
+//		acceptOrder.addActionListener(new ActionListener(){
+//			public void actionPerformed(ActionEvent e) {
+//				
+//				// Adding sales to history is implemented in a listener in the PurchaseTab 
+//				// Class in the acceptPaymentButtonClicked() method.
+//				
+//				// Decreasing quantities of warehouse items if purchase accepted
+//				model.getCurrentPurchaseTableModel().getTableRows(); // - accepted 
+//				model.getWarehouseTableModel().editData();
+//				
+//			}
+//		});
 		acceptOrder.setEnabled(false);
 		
 		panel.add(cancelOrder);
@@ -172,7 +176,8 @@ public class PurchaseItemPanel extends JPanel {
 		// Create drop-down product selection menu
 		menu = new JComboBox<String>();
 		menu.addItem("");
-		wareHouse = model.getSalesDomainController().loadWarehouseState();
+		wareHouse = model.getSalesDomainController().loadWarehouseState(model.getWarehouseTableModel());
+		//wareHouse = model.getWarehouseTableModel().getTableRows();
 		for (StockItem item : wareHouse) {
 			menu.addItem(item.getName());
 		}
@@ -182,6 +187,19 @@ public class PurchaseItemPanel extends JPanel {
 		quantityField = new JTextField("1");
 		nameField = new JTextField();
 		priceField = new JTextField();
+		
+//		menu.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				menu.removeAll();
+//				wareHouse = model.getWarehouseTableModel().getTableRows();
+//				for (StockItem item : wareHouse) {
+//					menu.addItem(item.getName());
+//				}
+//				
+//			}
+//		} );
 
 		// Fill the dialog fields if the selected item in the menu changes
 		menu.addItemListener(new ItemListener() {

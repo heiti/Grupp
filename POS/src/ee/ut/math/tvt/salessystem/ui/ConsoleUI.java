@@ -63,6 +63,7 @@ public class ConsoleUI {
 	}
 
 	private void populateWarehouse() {
+		// Added "null" as argument, 
 		warehouse = dc.loadWarehouseState();
 	}
 

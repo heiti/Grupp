@@ -179,7 +179,6 @@ public class PurchaseTab {
 		// Adding sales to History
 		
 		List<SoldItem> SoldItems = model.getCurrentPurchaseTableModel().getTableRows();
-		// Get ID for HistoryItem
 		Long id = (long) model.getHistoryTableModel().getRowCount();
 		System.out.println("HISTORY ID:  " + id);
 		HistoryItem historyItem = new HistoryItem(SoldItems,id);
@@ -193,8 +192,13 @@ public class PurchaseTab {
 		}
 		model.getHistoryTableModel().getTableRows().add(historyItem);
 		model.getHistoryTableModel().fireTableDataChanged();
+		
+		// Updating warehouse after sale complete
+		
+		List<SoldItem> acceptedProducts = model.getCurrentPurchaseTableModel().getTableRows();
+		model.getWarehouseTableModel().editContents(acceptedProducts);
 				
-			
+		// Ending the sale and resetting the purchasePane	
 		log.info("Sale complete");
 		purchasePane.resetPurchase();
 		try {

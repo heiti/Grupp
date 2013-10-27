@@ -1,9 +1,11 @@
 package ee.ut.math.tvt.salessystem.ui.model;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
 
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 
 /**
@@ -70,6 +72,19 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 		}
 
 		return buffer.toString();
+	}
+	// Method that updates warehouse state when purchase is accepted
+	public void editContents(List<SoldItem> acceptedProducts) {
+		
+		for(SoldItem item : acceptedProducts){
+			for(StockItem sItem : getTableRows()){
+				if(item.getName().equals(sItem.getName())){
+					sItem.setQuantity(sItem.getQuantity()-item.getQuantity());
+				}
+			}
+		}
+		fireTableDataChanged();
+		
 	}
 
 }
