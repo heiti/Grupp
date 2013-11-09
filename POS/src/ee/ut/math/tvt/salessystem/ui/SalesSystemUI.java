@@ -32,6 +32,7 @@ public class SalesSystemUI extends JFrame {
   //private final SalesDomainController domainController;
 
   // Warehouse model
+  private static SalesDomainController dc;
   private SalesSystemModel model;
 
   // Instances of tab classes
@@ -46,7 +47,7 @@ public class SalesSystemUI extends JFrame {
    * @param domainController Sales domain controller.
    */
   public SalesSystemUI(SalesDomainController domainController) {
-    //this.domainController = domainController;
+    dc = domainController;
     this.model = new SalesSystemModel(domainController);
 
     // Create singleton instances of the tab classes
@@ -76,7 +77,8 @@ public class SalesSystemUI extends JFrame {
     addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent e) {
-        System.exit(0);
+    	  SalesSystemUI.dc.endSession();
+    	  System.exit(0);
       }
     });
   }
