@@ -7,7 +7,9 @@
 	<property name="build.classes.dir" value="${build.dir}/classes"/>
 	<property name="src.dir" value="${basedir}/src"/>
 	<property name="dist.dir" value="${build.dir}/jar"/>
+	<property name="conf.dir" value="${basedir}/conf" />
 	<property name="lib.dir" value="${basedir}/lib"/>
+	<property name="lib.hibernate.dir"   value="${lib.dir}/hibernate"/>
 	<property file="version.properties" />
 	
 	<!-- database variables -->
@@ -15,7 +17,7 @@
 	<property name="db.file"	value="${data.dir}/POSdb"/>
 	<property name="db.alias"	value="POS"/>
 	<property name="db.url" 	value="jdbc:hsqldb:hsql://localhost/POS"/>
-	<property name="lib.hibernate.dir"   value="${lib.dir}/hibernate"/>
+	
 
 	
 	<condition property="dist.has.run">
@@ -98,7 +100,7 @@
 		    </classpath>
 		</manifestclasspath>
 		<jar destfile="${dist.dir}/lovilouad.jar" basedir="${build.dir}/classes">
-			<fileset dir="${basedir}" includes="images/ lib/ application.properties version.properties log4j.properties" />
+			<fileset dir="${basedir}" includes="images/ lib/ application.properties version.properties" />
 			<manifest>
 				<attribute name="Main-Class" value="ee.ut.math.tvt.lovilouad.Intro"/>
 			    <attribute name="Class-Path" value="${manifest.classpath}"/>

@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 
 import com.jgoodies.looks.windows.WindowsLookAndFeel;
 
+import ee.ut.math.tvt.lovilouad.Intro;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.tabs.HistoryTab;
@@ -75,9 +76,8 @@ public class SalesSystemUI extends JFrame {
     setLocation((screen.width - width) / 2, (screen.height - height) / 2);
 
     addWindowListener(new WindowAdapter() {
-      @Override
+    	@Override
       public void windowClosing(WindowEvent e) {
-    	  SalesSystemUI.dc.endSession();
     	  System.exit(0);
       }
     });

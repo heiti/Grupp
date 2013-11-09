@@ -1,7 +1,6 @@
 package ee.ut.math.tvt.lovilouad;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.controller.impl.SalesDomainControllerImpl;
@@ -15,8 +14,8 @@ public class Intro {
 
 	public static void main(String[] args) {
 		
-		PropertyConfigurator.configure("log4j.properties");
 		final SalesDomainController domainController = new SalesDomainControllerImpl();
+		
 
 		if (args.length == 1 && args[0].equals(MODE)) {
 			log.debug("Mode: " + MODE);
