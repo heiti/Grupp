@@ -6,6 +6,7 @@ import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
+import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -21,6 +22,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
 
 /**
  * Encapsulates everything that has to do with the purchase tab (the tab
@@ -179,9 +181,21 @@ public class PurchaseTab {
 		// Adding sales to History
 		
 		List<SoldItem> SoldItems = model.getCurrentPurchaseTableModel().getTableRows();
+		
+		
+		
+		for(SoldItem item : SoldItems){
+			Session session = HibernateUtil.currentSession();
+			session.beginTransaction();
+			session.persist(item);
+			session.save(item);
+		    session.getTransaction().commit();
+		}
+		
 		Long id = (long) model.getHistoryTableModel().getRowCount();
 		
 		HistoryItem historyItem = new HistoryItem(SoldItems,id);
+		
 		try{
 			model.getHistoryTableModel().getData().add(historyItem);
 		}

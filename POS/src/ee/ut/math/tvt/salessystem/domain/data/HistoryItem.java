@@ -5,16 +5,43 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.Session;
+
+import ee.ut.math.tvt.salessystem.util.HibernateUtil;
+
+@Entity
+@Table(name = "HISTORYITEM")
 public class HistoryItem extends StockItem implements Cloneable, DisplayableItem {
 	
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Column(name = "DATE")
 	private String Date;
 	
+	@Column(name = "TIME")
 	private String Time;
 	
+	@ManyToMany
+	@JoinTable(name = "HISTORYITEMS_TO_SOLDITEMS",
+	joinColumns = @JoinColumn(name ="HISTORYITEM_ID", referencedColumnName = "ID"),
+	inverseJoinColumns = @JoinColumn(name ="SOLDITEM_ID", referencedColumnName = "ID")
+	)
 	List<SoldItem> items;
 	
+	@Column(name = "SUM")	
 	private double Sum;
 	
 	public HistoryItem(List<SoldItem> Solditems, Long id){
@@ -25,8 +52,7 @@ public class HistoryItem extends StockItem implements Cloneable, DisplayableItem
 		Date = dateformat.format(timeofpurchase);
 		Time = timeformat.format(timeofpurchase);
 		items = Solditems;
-		Sum = this.getSum(Solditems);
-		
+		Sum = this.getSum(Solditems);	
 	}
 	
 	private double getSum(List<SoldItem> Solditems){
