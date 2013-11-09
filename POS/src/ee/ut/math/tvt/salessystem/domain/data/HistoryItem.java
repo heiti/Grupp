@@ -1,6 +1,7 @@
 package ee.ut.math.tvt.salessystem.domain.data;
 
 import java.util.List;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,17 +13,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.Session;
-
-import ee.ut.math.tvt.salessystem.util.HibernateUtil;
-
 @Entity
 @Table(name = "HISTORYITEM")
-public class HistoryItem extends StockItem implements Cloneable, DisplayableItem {
+public class HistoryItem implements DisplayableItem, Cloneable{
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,14 +30,14 @@ public class HistoryItem extends StockItem implements Cloneable, DisplayableItem
 	@Column(name = "TIME")
 	private String Time;
 	
-	@ManyToMany
+	@OneToMany
 	@JoinTable(name = "HISTORYITEMS_TO_SOLDITEMS",
 	joinColumns = @JoinColumn(name ="HISTORYITEM_ID", referencedColumnName = "ID"),
 	inverseJoinColumns = @JoinColumn(name ="SOLDITEM_ID", referencedColumnName = "ID")
 	)
 	List<SoldItem> items;
 	
-	@Column(name = "SUM")	
+	@Column(name = "TOTAL_SUM")	
 	private double Sum;
 	
 	public HistoryItem(List<SoldItem> Solditems, Long id){
@@ -89,13 +85,9 @@ public class HistoryItem extends StockItem implements Cloneable, DisplayableItem
 		return Date;
 	}
 
-
-
 	public String getTime() {
 		return Time;
 	}
-
-
 
 	public void setDate(String date) {
 		this.Date = date;

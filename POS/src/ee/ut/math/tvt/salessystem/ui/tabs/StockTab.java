@@ -3,6 +3,7 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.AddItemPanel;
+import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -21,6 +22,8 @@ import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
+
 
 
 public class StockTab {
@@ -155,6 +158,14 @@ public class StockTab {
 			 
 		  
 		  if(allowedToAdd){
+			  
+			  Session session = HibernateUtil.currentSession();
+			  
+			  session.beginTransaction();
+			  session.merge(newItem);
+			  session.save(newItem);
+			  session.getTransaction().commit();
+					  
 			  model.getWarehouseTableModel().addItem(newItem);
 			  model.getWarehouseTableModel().fireTableDataChanged();
 			  

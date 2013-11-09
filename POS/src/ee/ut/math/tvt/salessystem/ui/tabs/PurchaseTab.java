@@ -181,21 +181,22 @@ public class PurchaseTab {
 		// Adding sales to History
 		
 		List<SoldItem> SoldItems = model.getCurrentPurchaseTableModel().getTableRows();
-		
-		
-		
-		for(SoldItem item : SoldItems){
-			Session session = HibernateUtil.currentSession();
-			session.beginTransaction();
-			session.persist(item);
-			session.save(item);
-		    session.getTransaction().commit();
-		}
-		
 		Long id = (long) model.getHistoryTableModel().getRowCount();
+		Session session = HibernateUtil.currentSession();
+		session.beginTransaction();
 		
 		HistoryItem historyItem = new HistoryItem(SoldItems,id);
 		
+		for(SoldItem item : historyItem.getItems()){
+			item.setSaleId(historyItem.getId());
+			session.persist(item);
+			session.save(item);
+		}
+		
+		
+		session.persist(historyItem);
+		session.save(historyItem);
+		session.getTransaction().commit();
 		try{
 			model.getHistoryTableModel().getData().add(historyItem);
 		}
@@ -211,6 +212,7 @@ public class PurchaseTab {
 		
 		List<SoldItem> acceptedProducts = model.getCurrentPurchaseTableModel().getTableRows();
 		model.getWarehouseTableModel().editContents(acceptedProducts);
+		
 				
 		// Ending the sale and resetting the purchasePane	
 		log.info("Sale complete");

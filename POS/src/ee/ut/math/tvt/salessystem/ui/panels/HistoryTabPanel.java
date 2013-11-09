@@ -12,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
 
+
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.tabs.HistoryTab;
@@ -43,8 +44,8 @@ public class HistoryTabPanel extends JPanel {
 	    	  public void mouseClicked(MouseEvent e){
 	    		  if(e.getClickCount() > 0){
 	    			  
+	    			  // TODO - teha HistoryItemite lugemine andmebaasist.
 	    			  HistoryItem clickedSale = model.getHistoryTableModel().getHistoryItemByID((long)table.getSelectedRow());
-	    			  
 	    			  model.getHistoryPurchaseTableModel().add(clickedSale.getItems());
 	    			  model.getHistoryPurchaseTableModel().fireTableDataChanged();
 		    		  
