@@ -2,7 +2,6 @@
 <project basedir="." name="POSapplication" default="build">
 
 	<!-- Definitions of variables used during the rest of this script -->
-
 	<property file="build.properties"/>
 	<property name="build.dir" value="${basedir}/build"/>
 	<property name="build.classes.dir" value="${build.dir}/classes"/>
@@ -11,7 +10,6 @@
 	<property name="lib.dir" value="${basedir}/lib"/>
 	<property file="version.properties" />
 	
-	<!-- MA LISASIN NEED SIIA - MARTIN -->
 	<!-- database variables -->
 	<property name="data.dir"	value="${basedir}/data"/>
 	<property name="db.file"	value="${data.dir}/POSdb"/>
@@ -27,13 +25,11 @@
 	<!-- Classpath for running the application -->
 	<path id="run.classpath">
 		<pathelement location="${build.classes.dir}"/>
-		 <!-- configuration  JA SELLE - MARTIN -->
+		 <!-- configuration -->
 		<pathelement location="${conf.dir}"/>
-		
 		<fileset dir="${lib.dir}">
 			<include name="*.jar"/>
 		</fileset>
-		<!-- JA SELLE - MARTIN -->
 		<fileset dir="${lib.hibernate.dir}">
 		        <include name="*.jar"/>
 		</fileset>
@@ -44,11 +40,9 @@
 		<fileset dir="${lib.dir}">
 			<include name="*.jar"/>
 		</fileset>
-		
-	   <!-- JA SELLE - MARTIN (kahtlen, kas õiges kohas -->	
-	   <fileset dir="${lib.hibernate.dir}">
-	             <include name="*.jar"/>
-       </fileset>
+		<fileset dir="${lib.hibernate.dir}">
+			<include name="*.jar"/>
+		</fileset>
 	</path>
 
 	<!-- Definitions of runnable ant targets.
@@ -169,25 +163,18 @@
 		</exec>
 	</target>
 	
-	<!--Adding two additional targets dbmanager and startdb: - MARTIN  -->
+	<!--Adding two additional targets dbmanager and startdb -->
 	<target name="dbmanager" description="Start the HSQLDB manager">
-	        <java
-	            classname="org.hsqldb.util.DatabaseManagerSwing"
-	            classpathref="run.classpath"
-	            fork="yes"
-	        >
-	            <arg line="--user sa --url ${db.url}" />
-	        </java>
-	    </target>
+		<java classname="org.hsqldb.util.DatabaseManagerSwing" 
+			classpathref="run.classpath" fork="yes">
+			<arg line="--user sa --url ${db.url}" />
+		</java>
+	</target>
 
-	    <target name="startdb" description="Start the HSQLDB with the default params">
-	        <java
-	            classname="org.hsqldb.Server"
-	            classpathref="run.classpath"
-	            fork="yes"
-	        >
-	            <arg line="-database.0 '${db.file}' -dbname.0 '${db.alias}'" /> 
-	        </java>
+	<target name="startdb" description="Start the HSQLDB with the default params">
+		<java classname="org.hsqldb.Server" classpathref="run.classpath" fork="yes">
+			<arg line="-database.0 '${db.file}' -dbname.0 '${db.alias}'" />
+		</java>
 	</target>
 	
 </project>
