@@ -22,6 +22,7 @@ import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 
@@ -161,10 +162,32 @@ public class StockTab {
 			  
 			  Session session = HibernateUtil.currentSession();
 			  
-			  session.beginTransaction();
-			  session.merge(newItem);
-			  session.save(newItem);
-			  session.getTransaction().commit();
+			  // query to check, if entry already exists.
+			  Query existQuery = session.createQuery("FROM " +
+			  		"StockItem WHERE name = :name AND price = :price AND id = :id");
+			  existQuery.setParameter("name", newItem.getName());
+			  existQuery.setParameter("price", newItem.getPrice());
+			  existQuery.setParameter("id", newItem.getId());
+			  
+			  @SuppressWarnings("unchecked")
+			  List<StockItem> existingItems = existQuery.list();
+			  
+			  // Edit Quantity in DB if item already represented
+			  if (existingItems.size() > 0) {
+				  session.beginTransaction();
+				  for(StockItem item : existingItems){
+					  item.setQuantity(item.getQuantity()+newItem.getQuantity());
+				  }  
+			  }
+			  // Add item to DB if not
+			  else {
+				  session.beginTransaction();
+				  session.merge(newItem);
+				  session.save(newItem);
+				  session.getTransaction().commit();
+			  }
+			  
+			  
 					  
 			  model.getWarehouseTableModel().addItem(newItem);
 			  model.getWarehouseTableModel().fireTableDataChanged();
