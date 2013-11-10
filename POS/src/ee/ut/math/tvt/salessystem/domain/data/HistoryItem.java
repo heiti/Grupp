@@ -20,6 +20,10 @@ import javax.persistence.Table;
 @Table(name = "HISTORYITEM")
 public class HistoryItem implements DisplayableItem, Cloneable{
 	
+	public HistoryItem() {
+		super();
+	}
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

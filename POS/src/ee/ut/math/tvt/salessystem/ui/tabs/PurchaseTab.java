@@ -2,6 +2,7 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
+import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
@@ -22,6 +23,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
+import org.hibernate.PersistentObjectException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
@@ -153,7 +156,7 @@ public class PurchaseTab {
 			purchasePane.updateMenu();
 			startNewSale();
 		} catch (VerificationFailedException e1) {
-			// TODO Auto-generated catch block
+			
 			log.error(e1.getMessage());
 		}
 	}
@@ -182,21 +185,28 @@ public class PurchaseTab {
 		
 		List<SoldItem> SoldItems = model.getCurrentPurchaseTableModel().getTableRows();
 		Long id = (long) model.getHistoryTableModel().getRowCount();
+		HistoryItem historyItem = new HistoryItem(SoldItems,id);
+
+		//TODO - Delete purchased goods from warehouse
+		
 		Session session = HibernateUtil.currentSession();
 		session.beginTransaction();
 		
-		HistoryItem historyItem = new HistoryItem(SoldItems,id);
-		
-		for(SoldItem item : historyItem.getItems()){
+		for(SoldItem item : SoldItems){
 			item.setSaleId(historyItem.getId());
 			session.persist(item);
-			session.save(item);
 		}
 		
+		// ADD HistoryItem to DB
+		try{
+			session.persist(historyItem);
+			//session.getTransaction().commit();
+		}
+		catch(PersistentObjectException ex){
+			session.merge(historyItem);
+			//session.getTransaction().commit();
+		}
 		
-		session.persist(historyItem);
-		session.save(historyItem);
-		session.getTransaction().commit();
 		try{
 			model.getHistoryTableModel().getData().add(historyItem);
 		}
@@ -208,10 +218,23 @@ public class PurchaseTab {
 		model.getHistoryTableModel().getTableRows().add(historyItem);
 		model.getHistoryTableModel().fireTableDataChanged();
 		
-		// Updating warehouse after sale complete
+		// Updating GUI warehouse after sale complete
 		
-		List<SoldItem> acceptedProducts = model.getCurrentPurchaseTableModel().getTableRows();
-		model.getWarehouseTableModel().editContents(acceptedProducts);
+		Query editWarehouse = session.createQuery("from StockItem where id = :stockItemID");
+		
+		for(SoldItem item : SoldItems){
+			// For every SoldItem decrease Quantity in DB Warehousetable
+			editWarehouse.setParameter("stockItemID", item.getStockItem().getId());
+			StockItem dbsItem = (StockItem) editWarehouse.uniqueResult();
+			log.info("LOGOGOGOG   " + dbsItem.getName());
+			dbsItem.setQuantity(dbsItem.getQuantity() - item.getQuantity());
+		}
+				
+		session.getTransaction().commit();
+		
+		
+//		List<SoldItem> acceptedProducts = model.getCurrentPurchaseTableModel().getTableRows();
+//		model.getWarehouseTableModel().editContents(acceptedProducts);
 		
 				
 		// Ending the sale and resetting the purchasePane	

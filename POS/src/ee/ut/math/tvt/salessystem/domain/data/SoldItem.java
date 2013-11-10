@@ -18,6 +18,10 @@ import javax.persistence.Table;
 @Table(name = "SOLDITEM")
 public class SoldItem implements Cloneable, DisplayableItem {
 
+	public SoldItem() {
+		super();
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

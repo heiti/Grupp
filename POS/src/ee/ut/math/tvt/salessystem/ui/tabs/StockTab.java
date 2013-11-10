@@ -2,6 +2,7 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+import ee.ut.math.tvt.salessystem.ui.model.StockTableModel;
 import ee.ut.math.tvt.salessystem.ui.panels.AddItemPanel;
 import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
@@ -22,6 +23,7 @@ import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
 
 import org.apache.log4j.Logger;
+import org.hibernate.PersistentObjectException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -152,6 +154,7 @@ public class StockTab {
 						  break;
 					}
 				  else{
+					  Logger log = Logger.getLogger(StockTableModel.class);
 					  allowedToAdd = false; 
 				  }
 				}
@@ -161,6 +164,7 @@ public class StockTab {
 		  if(allowedToAdd){
 			  
 			  Session session = HibernateUtil.currentSession();
+			  session.beginTransaction();
 			  
 			  // query to check, if entry already exists.
 			  Query existQuery = session.createQuery("FROM " +
@@ -173,23 +177,26 @@ public class StockTab {
 			  List<StockItem> existingItems = existQuery.list();
 			  
 			  // Edit Quantity in DB if item already represented
-			  if (existingItems.size() > 0) {
-				  session.beginTransaction();
+			  if (existingItems.size() > 0){
 				  for(StockItem item : existingItems){
-					  item.setQuantity(item.getQuantity()+newItem.getQuantity());
+					  item.setQuantity(item.getQuantity() + newItem.getQuantity());
+					  session.getTransaction().commit();
 				  }  
 			  }
+			  
 			  // Add item to DB if not
 			  else {
-				  session.beginTransaction();
-				  session.merge(newItem);
-				  session.save(newItem);
-				  session.getTransaction().commit();
+				  try{
+					  session.persist(newItem);
+					  session.getTransaction().commit();
+				  }
+				  catch(PersistentObjectException ex){
+					  session.merge(newItem);
+					  session.getTransaction().commit();
+				  }
 			  }
 			  
-			  
-					  
-			  model.getWarehouseTableModel().addItem(newItem);
+			  model.getWarehouseTableModel().addItem(newItem);  //-- KUI SELLE TAGASI LISAD, SIIS TEKIB BUG, et ta hakkab topelt lisama vanu asju.
 			  model.getWarehouseTableModel().fireTableDataChanged();
 			  
 			  // Reset fields only, when entry succeeded

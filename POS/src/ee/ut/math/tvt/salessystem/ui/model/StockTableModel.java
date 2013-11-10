@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
+import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
 /**
  * Stock item table model.
@@ -52,7 +55,7 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 			log.debug("Added " + stockItem.getName()
 					+ " quantity of " + stockItem.getQuantity());
 		}
-		fireTableDataChanged();
+		//fireTableDataChanged(); -- KUI SELLE TAGASI LISAD TEKIB BUG
 	}
 
 	@Override
@@ -80,10 +83,11 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 			for(StockItem sItem : getTableRows()){
 				if(item.getName().equals(sItem.getName())){
 					sItem.setQuantity(sItem.getQuantity()-item.getQuantity());
+					
 				}
 			}
 		}
-		fireTableDataChanged();
+		//fireTableDataChanged();
 		
 	}
 

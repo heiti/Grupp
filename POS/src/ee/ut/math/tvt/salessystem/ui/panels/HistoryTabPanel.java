@@ -12,10 +12,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+
 
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.tabs.HistoryTab;
+import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
 public class HistoryTabPanel extends JPanel {
 	
@@ -43,12 +47,14 @@ public class HistoryTabPanel extends JPanel {
 	      table.addMouseListener(new MouseAdapter(){
 	    	  public void mouseClicked(MouseEvent e){
 	    		  if(e.getClickCount() > 0){
-	    			  
-	    			  // TODO - teha HistoryItemite lugemine andmebaasist.
-	    			  HistoryItem clickedSale = model.getHistoryTableModel().getHistoryItemByID((long)table.getSelectedRow());
+	    			  Session session = HibernateUtil.currentSession();
+	    			  	
+	    			  Query historyPoll = session.createQuery("from HistoryItem where id = :id");
+	    			  historyPoll.setParameter("id", (Long) table.getValueAt(table.getSelectedRow(), 0));
+	    			
+	    			  HistoryItem clickedSale = (HistoryItem) historyPoll.uniqueResult();
 	    			  model.getHistoryPurchaseTableModel().add(clickedSale.getItems());
 	    			  model.getHistoryPurchaseTableModel().fireTableDataChanged();
-		    		  
 	    		  }
 	    	  }
 	      });
