@@ -5,7 +5,9 @@
 	<property file="build.properties"/>
 	<property name="build.dir" value="${basedir}/build"/>
 	<property name="build.classes.dir" value="${build.dir}/classes"/>
+	<property name="build.test.dir"       value="${build.dir}/test"/>
 	<property name="src.dir" value="${basedir}/src"/>
+	<property name="test.dir"   value="${basedir}/test"/>
 	<property name="dist.dir" value="${build.dir}/jar"/>
 	<property name="conf.dir" value="${basedir}/conf" />
 	<property name="lib.dir" value="${basedir}/lib"/>
@@ -46,6 +48,18 @@
 			<include name="*.jar"/>
 		</fileset>
 	</path>
+
+	<!-- Classpath for tests -->
+	<path id="test.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+	    <pathelement path="${build.classes.dir}/" />
+		<pathelement path="${build.test.dir}/" />
+	</path>
+
+	
+	
 
 	<!-- Definitions of runnable ant targets.
          Run them from the command line by executing "ant [targetname]"  -->
@@ -177,6 +191,37 @@
 		<java classname="org.hsqldb.Server" classpathref="run.classpath" fork="yes">
 			<arg line="-database.0 '${db.file}' -dbname.0 '${db.alias}'" />
 		</java>
+	</target>
+	
+	<!-- Build test -->
+	<target name="build-tests" depends="build" description="Build the system">
+		<mkdir dir="${build.test.dir}"/>
+		<javac
+            srcdir="${test.dir}"
+            destdir="${build.test.dir}"
+            debug="true"
+            debuglevel="lines,vars,source"
+            encoding="utf-8"
+            compiler="modern"
+            target="1.5"
+            source="1.5"
+        	classpathref="build.classpath"
+        >
+			<classpath>
+				<pathelement path="${build.classes.dir}" />
+			</classpath>
+		</javac>
+	</target>
+	
+	<!-- Run test -->
+	<target name="test" depends="build-tests" description="Run the template application">
+		<junit>
+			<classpath refid="test.classpath" />
+			<formatter type="brief" usefile="false" />
+			<batchtest>
+				<fileset dir="${build.test.dir}" includes="**/*.class" />
+			</batchtest>
+		</junit>
 	</target>
 	
 </project>
