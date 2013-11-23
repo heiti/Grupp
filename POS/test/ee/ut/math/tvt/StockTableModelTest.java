@@ -11,17 +11,13 @@ import org.junit.Test;
 
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
-import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.model.StockTableModel;
-import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
-import ee.ut.math.tvt.salessystem.ui.tabs.StockTab;
 
 public class StockTableModelTest {
 	private StockItem item1;
 	private StockItem item1_1;
 	private StockItem item2;
-	private SalesSystemModel model;
-	private List <SoldItem> order = new ArrayList<SoldItem>();
+	private List <SoldItem> order = new ArrayList<>();
 	
 	
 	@Before
