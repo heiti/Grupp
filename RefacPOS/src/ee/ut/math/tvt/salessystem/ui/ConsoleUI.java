@@ -2,15 +2,19 @@ package ee.ut.math.tvt.salessystem.ui;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.Client;
+import ee.ut.math.tvt.salessystem.domain.data.Sale;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -127,16 +131,14 @@ public class ConsoleUI {
                 System.out.println("You must select a client first!");
                 return;
             }
-            try {
-                List<SoldItem> soldItems = new ArrayList<SoldItem>();
-                for(StockItem stockItem : cart) {
-                    soldItems.add(new SoldItem(stockItem, stockItem.getQuantity()));
-                }
-                dc.submitCurrentPurchase(soldItems, selectedClient);
-                cart.clear();
-            } catch (VerificationFailedException e) {
-                log.error(e.getMessage());
-            }
+            List<SoldItem> soldItems = new ArrayList<SoldItem>();
+			for(StockItem stockItem : cart) {
+			    soldItems.add(new SoldItem(stockItem, stockItem.getQuantity()));
+			}
+			Sale currentSale = new Sale(soldItems);
+			currentSale.setSellingTime(new Date());
+			dc.registerSale(currentSale);
+			cart.clear();
 
         } else if (c[0].equals("r")) {
 

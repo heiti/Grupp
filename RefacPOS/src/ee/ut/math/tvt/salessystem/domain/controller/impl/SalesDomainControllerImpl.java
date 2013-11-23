@@ -90,12 +90,12 @@ public class SalesDomainControllerImpl implements SalesDomainController {
             session.save(stockItem);
         }
 
-        session.save(sale);
+        //session.save(sale);
 
         // end transaction
-        tx.commit();
+       // tx.commit();
 
-        model.getPurchaseHistoryTableModel().addRow(sale);
+        //model.getPurchaseHistoryTableModel().addRow(sale);
 
     }
 
@@ -105,7 +105,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
         Transaction tx = session.beginTransaction();
         session.save(stockItem);
         tx.commit();
-        model.getWarehouseTableModel().addRow(stockItem);
+        //model.getWarehouseTableModel().addRow(stockItem);
         log.info("Added new stockItem : " + stockItem);
     }
 
@@ -167,7 +167,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
         // end transaction
         tx.commit();
 
-        model.getPurchaseHistoryTableModel().addRow(currentSale);
+        //model.getPurchaseHistoryTableModel().addRow(currentSale);
 
 	}
 

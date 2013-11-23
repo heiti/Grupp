@@ -8,6 +8,7 @@ import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
 import ee.ut.math.tvt.salessystem.ui.windows.PayingWindow;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -15,6 +16,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -24,6 +26,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -166,26 +169,22 @@ public class PurchaseTab {
 
     public void endPurchaseAfterPaying() {
         log.info("Sale complete");
-        try {
-
-            log.debug("Contents of the current basket:\n"
-                    + model.getCurrentPurchaseTableModel());
-            
-            // Filling fields for currentSale
-            Sale currentSale = ((Sale) domainController.getCurrentSale());
-            currentSale.setSellingTime(new Date());
-            currentSale.setSoldItems((Set<SoldItem>) model.getCurrentPurchaseTableModel().getTableRows());
-            // Registering the sale
-            domainController.registerSale(currentSale);
-            
-            domainController.submitCurrentPurchase(
-                    model.getCurrentPurchaseTableModel().getTableRows(),
-                    model.getSelectedClient());
-            endSale();
-            model.getCurrentPurchaseTableModel().clear();
-        } catch (VerificationFailedException e1) {
-            log.error(e1.getMessage());
-        }
+        log.debug("Contents of the current basket:\n"
+		        + model.getCurrentPurchaseTableModel());
+		
+		// Filling fields for currentSale
+		Sale currentSale = ((Sale) domainController.getCurrentSale());
+		currentSale.setSellingTime(new Date());
+		currentSale.setSoldItems(new HashSet<SoldItem>(model.getCurrentPurchaseTableModel().getTableRows()));
+		// Registering the sale
+		domainController.registerSale(currentSale);
+		
+//      domainController.submitCurrentPurchase(
+//      model.getCurrentPurchaseTableModel().getTableRows(),
+//      model.getSelectedClient());
+		
+		endSale();
+		model.getCurrentPurchaseTableModel().clear();
     }
 
     public void cancelPaying() {
