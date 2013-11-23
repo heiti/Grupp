@@ -41,7 +41,9 @@ public class HistoryItemTest {
 	public void testAddSoldItem() {
 		HistoryItem sold = new HistoryItem(Solditems, 101L);
 		Solditems.add(sold_item1);
+		Solditems.add(sold_item2);
 		sold.setItems(Solditems);
+		assertEquals(sold.getTotalSum(), totalSum, 0.0001);
 	}
 	
 	@Test

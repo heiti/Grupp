@@ -82,6 +82,7 @@ public class HistoryItem implements DisplayableItem, Cloneable{
 
 	public void setItems(List<SoldItem> items) {
 		this.items = items;
+		this.Sum = getSum(items);
 	}
 
 
