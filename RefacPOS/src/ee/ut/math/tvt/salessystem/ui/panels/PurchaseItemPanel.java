@@ -141,7 +141,7 @@ public class PurchaseItemPanel extends JPanel {
 
     // Fill dialog with data from the "database".
     public void fillDialogFields() {
-        //StockItem stockItem = getStockItemByBarcode();
+
         StockItem stockItem = (StockItem) stockItemSelector.getSelectedItem();
 
         if (stockItem != null) {
@@ -226,7 +226,6 @@ public class PurchaseItemPanel extends JPanel {
         }
         barCodeField.setText("");
         quantityField.setText("1");
-        //nameField.setText("");
         priceField.setText("");
     }
 

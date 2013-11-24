@@ -6,7 +6,6 @@ import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.SalesSystemException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -19,9 +18,11 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 	private static final Logger log = Logger.getLogger(PurchaseInfoTableModel.class);
 
 	private SalesSystemModel model;
-
+	protected List<SoldItem> rows;
+	
     public PurchaseInfoTableModel() {
         super(new String[] { "Id", "Name", "Price", "Quantity", "Sum"});
+        rows = new ArrayList<SoldItem>();
     }
 
 	public PurchaseInfoTableModel(SalesSystemModel model) {
@@ -54,7 +55,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 			buffer.append(headers[i] + "\t");
 		buffer.append("\n");
 
-		for (final SoldItem item : currentSale.getSoldItems()) {
+		for (final SoldItem item : rows) {
 			buffer.append(item.getId() + "\t");
 			buffer.append(item.getName() + "\t");
 			buffer.append(item.getPrice() + "\t");
@@ -68,7 +69,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 
 
 	public SoldItem getForStockItem(long stockItemId) {
-	    for (SoldItem item : currentSale.getSoldItems()) {
+	    for (SoldItem item : rows) {
 	        if (item.getStockItem().getId().equals(stockItemId)) {
 	            return item;
 	        }
@@ -96,7 +97,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 
         } else {
             validateQuantityInStock(soldItem.getStockItem(), soldItem.getQuantity());
-            currentSale.getSoldItems().add(soldItem);
+            rows.add(soldItem);
             log.debug("Added " + soldItem.getName()
                     + " quantity of " + soldItem.getQuantity());
         }
@@ -109,7 +110,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
      */
     public double getTotalPrice() {
         double price = 0.0;
-        for (SoldItem item : currentSale.getSoldItems()) {
+        for (SoldItem item : rows) {
             price += item.getSum();
         }
         return price;
@@ -137,19 +138,13 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
      * (Used by the history details table in the HistoryTab).
      */
     public void showSale(Sale sale) {
-        currentSale.setSoldItems( (Set<SoldItem>) new ArrayList<SoldItem>(sale.getSoldItems()));
+        this.rows = new ArrayList<SoldItem>(sale.getSoldItems());
         fireTableDataChanged();
     }
 
 	@Override
-	public Set<SoldItem> getTableRows() {
-		return currentSale.getSoldItems();
-	}
-
-	@Override
-	public List<SoldItem> getRows() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<SoldItem> getTableRows() {
+		return rows;
 	}
 
 }

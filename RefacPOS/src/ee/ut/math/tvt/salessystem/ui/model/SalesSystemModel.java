@@ -36,15 +36,8 @@ public class SalesSystemModel {
         clientTableModel = new ClientTableModel();
 
         // Load data from the database
-
         List<StockItem> stockItems = domainController.getAllStockItems();
         warehouseTableModel.populateWithData(stockItems);
-
-//        List<Client> clients = domainController.getAllClients();
-//        clientTableModel.populateWithData(clients);
-
-//        List<Sale> sales = domainController.getAllSales();
-//        purchaseHistoryTableModel.populateWithData(sales);
 
     }
 

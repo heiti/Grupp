@@ -179,10 +179,6 @@ public class PurchaseTab {
 		// Registering the sale
 		domainController.registerSale(currentSale);
 		
-//      domainController.submitCurrentPurchase(
-//      model.getCurrentPurchaseTableModel().getTableRows(),
-//      model.getSelectedClient());
-		
 		endSale();
 		model.getCurrentPurchaseTableModel().clear();
     }

@@ -1,17 +1,13 @@
 package ee.ut.math.tvt.salessystem.ui.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Set;
 
 import javax.swing.table.AbstractTableModel;
 
 import ee.ut.math.tvt.salessystem.domain.data.DisplayableItem;
 import ee.ut.math.tvt.salessystem.domain.data.Sale;
-import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
-import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 
 /**
  * Generic table model implementation suitable for extending.
@@ -21,13 +17,10 @@ public abstract class SalesSystemTableModel<T extends DisplayableItem> extends
 
     private static final long serialVersionUID = 1L;
 
-    //protected List<T> rows; 
-    protected Sale currentSale;
     protected final String[] headers;
 
     public SalesSystemTableModel(final String[] headers) {
         this.headers = headers;
-        //rows = currentSale.getSoldItems(); // sale.getRows() ?? 
     }
 
     /**
@@ -49,44 +42,45 @@ public abstract class SalesSystemTableModel<T extends DisplayableItem> extends
     }
 
     public int getRowCount() {
-        return currentSale.getSoldItems().size();
+        return getRows().size();
     }
 
     public Object getValueAt(final int rowIndex, final int columnIndex) {
-        return getColumnValue(((List<T>) currentSale.getSoldItems()).get(rowIndex), columnIndex);
+        return getColumnValue(getTableRows().get(rowIndex), columnIndex);
     }
 
     // search for item with the specified id
-    public StockItem getItemById(final long id) {
-        for (final T item : this.getRows()) {
+    public T getItemById(final long id) {
+        for (final T item : getTableRows()) {
             if (item.getId() == id)
-                return (StockItem) item;
+                return item;
         }
         throw new NoSuchElementException();
     }
 
-    abstract public Set<T> getTableRows();
+    abstract public List<T> getTableRows();
 
     public void clear() {
-    	currentSale.getSoldItems().clear();
+    	getTableRows().clear();
         fireTableDataChanged();
     }
 
-    public void populateWithData(final List<T> data) {
-    	currentSale.getSoldItems().clear();
-    	currentSale.getSoldItems().addAll((Collection<? extends SoldItem>) data);
+    public void populateWithData(final List<T> data) {	
+        getTableRows().clear();
+        getTableRows().addAll(data);
     }
     
     public void addRow(T row) {
-    	currentSale.getSoldItems().add((SoldItem) row);
+    	getTableRows().add(row);
         fireTableDataChanged();
     }
     
     public T getRow(int index) {
-        return ((List<T>) currentSale.getSoldItems()).get(index);
+        return getTableRows().get(index);
     }
     
-    abstract public List<T> getRows();
-    
+    public List<T> getRows() {
+        return getTableRows();
+    }
     
 }
