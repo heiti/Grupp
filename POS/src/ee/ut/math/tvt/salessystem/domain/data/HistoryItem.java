@@ -60,11 +60,8 @@ public class HistoryItem implements DisplayableItem, Cloneable{
 		
 		for(SoldItem item : Solditems){
 			sum = sum + item.getSum();
-			
 		}
-		
-		return sum;
-			
+		return sum;	
 	}
 
 	public double getTotalSum() {

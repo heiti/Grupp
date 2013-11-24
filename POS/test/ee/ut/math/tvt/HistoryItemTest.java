@@ -25,8 +25,6 @@ public class HistoryItemTest {
 	SoldItem sold_item1;
 	SoldItem sold_item2;
 	
-	
-	
 	@Before
 	public void setUp() {
 		stock_item1 = new StockItem(1001L, "Lauaviin", "Kange", cost1);
@@ -64,7 +62,6 @@ public class HistoryItemTest {
 		Solditems.add(sold_item2);		
 		HistoryItem sold2 = new HistoryItem(Solditems, 1002L);
 		assertEquals(sold2.getTotalSum(), totalSum, 0.001);
-		
 	}
 
 }
