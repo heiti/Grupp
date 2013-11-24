@@ -1,9 +1,5 @@
 package ee.ut.math.tvt.salessystem.ui.panels;
 
-import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
-import ee.ut.math.tvt.salessystem.domain.data.StockItem;
-import ee.ut.math.tvt.salessystem.domain.exception.SalesSystemException;
-import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -12,18 +8,23 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.NoSuchElementException;
+
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+
 import org.apache.log4j.Logger;
+
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
+import ee.ut.math.tvt.salessystem.domain.data.StockItem;
+import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 /**
  * Purchase pane + shopping cart tabel UI.
@@ -182,24 +183,12 @@ public class PurchaseItemPanel extends JPanel {
                 quantity = 1;
             }
 
-            // If there is not enough stock left in the warehouse to add this quantity..
-            try {
-                model.getCurrentPurchaseTableModel()
-                    .addItem(new SoldItem(stockItem, quantity));
-            } catch (SalesSystemException e) {
-                showNotEnoughInStockWarning();
-            }
+                model.getCurrentPurchaseTableModel().getSale()
+                    .addSoldItem(new SoldItem(stockItem, quantity));
+
         }
     }
 
-    private void showNotEnoughInStockWarning() {
-        JOptionPane.showMessageDialog(this,
-                "Not enough stock, decrease amount",
-                "Attention",
-                JOptionPane.WARNING_MESSAGE
-        );
-        logger.debug("  -- there was not enough cargo in warehouse to add item");
-    }
 
     /**
      * Sets whether or not this component is enabled.
