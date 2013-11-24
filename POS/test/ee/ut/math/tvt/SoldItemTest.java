@@ -13,7 +13,6 @@ public class SoldItemTest {
 	private SoldItem sold_item1;
 	private static double cost1= 15.00;
 	
-
 	@Before
 	public void setUp() {
 		stock_item1 = new StockItem(1L, "Lauaviin", "Kange alkohol", cost1);		
@@ -35,5 +34,6 @@ public class SoldItemTest {
 	(expected = IllegalArgumentException.class)
 	public void testSoldItemWithNegativeQuantity() {
 		sold_item1 = new SoldItem(stock_item1, -3);
-	}	
+	}
+	
 }
