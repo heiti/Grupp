@@ -197,6 +197,7 @@
 	<target name="build-tests" depends="build" description="Build the system">
 		<mkdir dir="${build.test.dir}"/>
 		<javac
+			includeantruntime="false"
             srcdir="${test.dir}"
             destdir="${build.test.dir}"
             debug="true"
