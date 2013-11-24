@@ -14,12 +14,16 @@ public class StockItemTest {
 	
 	@Before
 	public void setUp() {
-		item1 = new StockItem(1L, "Saku Originaal", "Õlu", price, items);
+		item1 = new StockItem(1L, "Saku Originaal", "Beer", price, items);
 	}
 	
 	@Test
 	public void testClone() {
-		assertEquals(item1.clone().getClass(), item1.getClass());			
+		StockItem item2 =(StockItem) item1.clone();
+		assertEquals(item1.getId(), item2.getId());
+		assertEquals(item1.getName(), item2.getName());
+		assertEquals(item1.getPrice(), item2.getPrice(), 00.1);
+		assertEquals(item1.getQuantity(), item2.getQuantity());
 	}
 	
 	@Test
@@ -39,12 +43,12 @@ public class StockItemTest {
 	@Test
 	(expected = IllegalArgumentException.class)
 	public void testStockItemWithNegativePrice() {
-		item1 = new StockItem(1L, "Saku Originaal", "Õlu", -price, items);
+		item1 = new StockItem(1L, "Saku Originaal", "Beer", -price, items);
 	}
 	
 	@Test
 	(expected = IllegalArgumentException.class)
 	public void testStockItemWithNegativeQuantity() {
-		item1 = new StockItem(1L, "Saku Originaal", "Õlu", price, -items);
+		item1 = new StockItem(1L, "Saku Originaal", "Beer", price, -items);
 	}
 }
