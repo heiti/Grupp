@@ -30,10 +30,13 @@ public class StockTableModelTest {
 	@Test
 	/*
 	 * In our program the unique name is checked in class StockTab,
-	 * method addNewItem() 
+	 * method addNewItem() and also it is allowed to add new item with different
+	 * ID but with same name because there are items with the same name but in
+	 * different containers(same beer in bottle and also in barrel can be prized differently).
+	 * 
 	 */
 	(expected = IllegalArgumentException.class)
-	public void testValidateNameUniqueness() {
+	public void testValidateNameUniquenessWhenAddingItemWithSameID() {
 		StockTableModel stock = new StockTableModel();
 		item1_1 = new StockItem(1L, "Bock", "0.5 pudel", 2, 100);
 		stock.addItem(item1);
