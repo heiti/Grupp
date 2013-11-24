@@ -48,8 +48,7 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 		try {
 			StockItem item = getItemById(stockItem.getId());
 			 if (stockItem.getName() != item.getName()) {
-		          throw new IllegalArgumentException("Invalid id or name! Item with this id but with different name already exists!");
-		          
+		          throw new IllegalArgumentException("Invalid id or name! Item with this id but with different name already exists!");		          
 			 }
 			//item.setQuantity(item.getQuantity() + stockItem.getQuantity());
 			log.debug("Found existing item " + stockItem.getName()
@@ -89,7 +88,7 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 			for(StockItem sItem : getTableRows()){
 				if(item.getName().equals(sItem.getName())){
 					if(sItem.getQuantity()-item.getQuantity() < 0)
-					sItem.setQuantity(sItem.getQuantity()-item.getQuantity());
+						sItem.setQuantity(sItem.getQuantity()-item.getQuantity());
 					
 				}
 			}

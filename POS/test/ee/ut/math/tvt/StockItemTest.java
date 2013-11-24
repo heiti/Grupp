@@ -9,24 +9,42 @@ import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 
 public class StockItemTest {
 	private StockItem item1;
-	private static Object items = 5;
+	private static int items = 5;
+	private static double price = 3;
 	
 	@Before
 	public void setUp() {
-		
+		item1 = new StockItem(1L, "Saku Originaal", "Ã•lu", price, items);
 	}
 	
 	@Test
 	public void testClone() {
-		StockItem item2 = new StockItem(1L, "Saku Originaal", "Ílu", 3, 5);
-		assertEquals(item2.clone().getClass(), item2.getClass());	
-		
+		assertEquals(item1.clone().getClass(), item1.getClass());			
 	}
 	
 	@Test
 	public void testGetColumn() {
-		item1 = new StockItem(1L, "Saku Originaal", "Ílu", 3, 5);
-		assertEquals(item1.getColumn(3), items);
-		
+		assertEquals(item1.getColumn(0), 1L);
+		assertEquals(item1.getColumn(1), "Saku Originaal");
+		assertEquals(item1.getColumn(2), price);
+		assertEquals(item1.getColumn(3), items);		
+	}
+	
+	@Test
+	(expected = RuntimeException.class)
+	public void testGetColumnWhenInvalid() {
+		assertEquals(item1.getColumn(4), items);
+	}
+	
+	@Test
+	(expected = IllegalArgumentException.class)
+	public void testStockItemWithNegativePrice() {
+		item1 = new StockItem(1L, "Saku Originaal", "Ã•lu", -price, items);
+	}
+	
+	@Test
+	(expected = IllegalArgumentException.class)
+	public void testStockItemWithNegativeQuantity() {
+		item1 = new StockItem(1L, "Saku Originaal", "Ã•lu", price, -items);
 	}
 }

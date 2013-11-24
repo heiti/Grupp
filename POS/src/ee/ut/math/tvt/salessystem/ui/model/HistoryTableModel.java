@@ -3,6 +3,7 @@ package ee.ut.math.tvt.salessystem.ui.model;
 import org.apache.log4j.Logger;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 
@@ -45,15 +46,12 @@ public class HistoryTableModel extends SalesSystemTableModel<HistoryItem> {
 	}
 	
 	public HistoryItem getHistoryItemByID(Long ID){
-		HistoryItem historyItem = null;
 		for (HistoryItem item : data){
 			if(ID == item.getId()){
-				historyItem = item;
-				break;
+				return item;
 			}
 		}
-		return historyItem;
-		
+		throw new NoSuchElementException();
 		
 	}
 	

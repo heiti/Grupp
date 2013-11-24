@@ -17,27 +17,27 @@ public class StockTableModelTest {
 	private StockItem item1;
 	private StockItem item1_1;
 	private StockItem item2;
-	private List <SoldItem> order = new ArrayList<>();
+	private List <SoldItem> order;
 	
 	
 	@Before
 	public void setUp() {
-		item1 = new StockItem(1L, "Saku", "0.5 pudel", 3,	10);
-		item2 = new StockItem(2L, "Ale Le coq", "0.5 pudel", 3.5,	10);
+		item1 = new StockItem(1L, "Saku", "0.5 pudel", 3, 10);
+		item2 = new StockItem(2L, "A Le coq", "0.5 pudel", 3.5, 10);
+		order = new ArrayList<>();
 	}
 	
 	@Test
 	/*
-	 * In our program the unique name test is implemented in class Stocktab,
+	 * In our program the unique name is checked in class StockTab,
 	 * method addNewItem() 
 	 */
 	(expected = IllegalArgumentException.class)
 	public void testValidateNameUniqueness() {
 		StockTableModel stock = new StockTableModel();
-		item1_1 = new StockItem(1L, "Bock", "0.5 purk", 2, 100);
+		item1_1 = new StockItem(1L, "Saku", "0.5 purk", 2, 100);
 		stock.addItem(item1);
-		stock.addItem(item1_1);
-		
+		stock.addItem(item1_1);		
 	}
 	
 	@Test
@@ -49,30 +49,25 @@ public class StockTableModelTest {
 	public void testHasEnoughInStock() {
 		StockTableModel stock = new StockTableModel();
 		stock.addItem(item1);
-		System.out.println(stock);
 		SoldItem sold = new SoldItem(item1, 100);
 		order.add(sold);
-		stock.editContents(order);
-		
+		stock.editContents(order);		
 	}
 	
 	@Test
 	public void testGetItemByIdWhenItemExists() {
 		StockTableModel stock = new StockTableModel();
 		stock.addItem(item1);
-		stock.addItem(item2);
-		
-		assertEquals(stock.getItemById(1), item1);
-		
+		stock.addItem(item2);		
+		assertEquals(stock.getItemById(1), item1);		
 	}
 	
 	@Test
-	(expected=NoSuchElementException.class)
+	(expected = NoSuchElementException.class)
 	public void testGetItemByIdWhenThrowsException() {
 		StockTableModel stock = new StockTableModel();
 		stock.addItem(item1);
-		stock.addItem(item2);
-		
+		stock.addItem(item2);		
 		stock.getItemById(8);		
 	}
 	

@@ -43,11 +43,13 @@ public class SoldItem implements Cloneable, DisplayableItem {
     private double price;
     
     public SoldItem(StockItem stockItem, int quantity) {
+    	if (quantity < 0.0) {
+            throw new IllegalArgumentException("Invalid quantity! Has to be positive!");
+        }
         this.stockItem = stockItem;
         this.name = stockItem.getName();
         this.price = stockItem.getPrice();
-        this.quantity = quantity;
-        
+        this.quantity = quantity;        
     }
     
     

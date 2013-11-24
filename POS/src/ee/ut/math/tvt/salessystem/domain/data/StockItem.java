@@ -38,6 +38,9 @@ public class StockItem implements Cloneable, DisplayableItem {
      * @param price price of the product
      */
     public StockItem(Long id, String name, String desc, double price) {
+        if (price < 0.0) {
+            throw new IllegalArgumentException("Invalid price! Has to be positive!");
+        }
         this.id = id;
         this.name = name;
         this.description = desc;
@@ -45,6 +48,9 @@ public class StockItem implements Cloneable, DisplayableItem {
     }
     
     public StockItem(Long id, String name, String desc, double price, int quantity) {
+    	if (price < 0.0 || quantity < 0) {
+            throw new IllegalArgumentException("Invalid price or quantity!");
+        }
         this.id = id;
         this.name = name;
         this.description = desc;
