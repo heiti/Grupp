@@ -51,7 +51,8 @@ public class StockTableModelTest {
 		stock.addItem(item1);
 		SoldItem sold = new SoldItem(item1, 100);
 		order.add(sold);
-		stock.editContents(order);		
+		stock.editContents(order);
+		System.out.println(stock.toString());
 	}
 	
 	@Test

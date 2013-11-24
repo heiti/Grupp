@@ -87,8 +87,12 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 		for(SoldItem item : acceptedProducts){
 			for(StockItem sItem : getTableRows()){
 				if(item.getName().equals(sItem.getName())){
-					if(sItem.getQuantity()-item.getQuantity() < 0)
+					if((sItem.getQuantity()-item.getQuantity()) >= 0){
 						sItem.setQuantity(sItem.getQuantity()-item.getQuantity());
+					}
+					else {
+						throw new IllegalArgumentException();
+					}
 					
 				}
 			}
