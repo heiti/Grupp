@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+        
+  <appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender"> 
+    <param name="Target" value="System.out"/> 
+    <layout class="org.apache.log4j.PatternLayout"> 
+      <param name="ConversionPattern" value="Time: %d, Component: %c, Information: %m%n"/> 
+    </layout> 
+  </appender> 
+
+
+  <!-- Configure logging from our own classes to be on level "debug" -->
+  <category name="ee.ut" additivity="false">
+    <priority value="debug" />
+    <appender-ref ref="consoleAppender" />
+  </category>
+  
+  <category name="org.hibernate" additivity="false">
+    <priority value="warn" />
+    <appender-ref ref="consoleAppender" />
+  </category>
+  
+  <!-- And logging from other classes to level "info" to cut down the log spamming -->
+  <root>
+    <priority value="info"/>
+    <appender-ref ref="consoleAppender"/>
+  </root>
+  
+
+</log4j:configuration>
