@@ -31,8 +31,8 @@ public class HistoryItemTest {
 		stock_item2 = new StockItem(1002L, "Torniviin", "Kange", cost2);
 		sold_item1 = new SoldItem(stock_item1, 1);
 		sold_item2 = new SoldItem(stock_item2, 2);
-		Solditems = new ArrayList<>();
-		list1 = new ArrayList<>();
+		Solditems = new ArrayList<SoldItem>();
+		list1 = new ArrayList<SoldItem>();
 	}
 	
 	@Test

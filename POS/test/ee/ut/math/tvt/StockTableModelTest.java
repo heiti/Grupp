@@ -24,7 +24,7 @@ public class StockTableModelTest {
 	public void setUp() {
 		item1 = new StockItem(1L, "Saku", "0.5 pudel", 3, 10);
 		item2 = new StockItem(2L, "A Le coq", "0.5 pudel", 3.5, 10);
-		order = new ArrayList<>();
+		order = new ArrayList<SoldItem>();
 	}
 	
 	@Test
@@ -35,9 +35,9 @@ public class StockTableModelTest {
 	(expected = IllegalArgumentException.class)
 	public void testValidateNameUniqueness() {
 		StockTableModel stock = new StockTableModel();
-		item1_1 = new StockItem(1L, "Saku", "0.5 purk", 2, 100);
+		item1_1 = new StockItem(1L, "Bock", "0.5 pudel", 2, 100);
 		stock.addItem(item1);
-		stock.addItem(item1_1);		
+		stock.addItem(item1_1);
 	}
 	
 	@Test

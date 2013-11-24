@@ -22,11 +22,11 @@ public class HistoryTableModelTest {
 	
 	@Before
 	public void setUp() {
-		Solditems = new ArrayList<>();
+		Solditems = new ArrayList<SoldItem>();
 		sitem1 = new SoldItem(new StockItem(1L, "Saku", "Beer", 10, 5), 2);
 		Solditems.add(sitem1);
 		item1 = new HistoryItem(Solditems, 1L);
-		data = new ArrayList<>();
+		data = new ArrayList<HistoryItem>();
 		data.add(item1);
 	}
 	
