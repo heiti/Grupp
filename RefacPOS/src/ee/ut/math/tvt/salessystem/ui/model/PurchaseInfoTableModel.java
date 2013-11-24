@@ -6,6 +6,7 @@ import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.SalesSystemException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -53,7 +54,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 			buffer.append(headers[i] + "\t");
 		buffer.append("\n");
 
-		for (final SoldItem item : rows) {
+		for (final SoldItem item : currentSale.getSoldItems()) {
 			buffer.append(item.getId() + "\t");
 			buffer.append(item.getName() + "\t");
 			buffer.append(item.getPrice() + "\t");
@@ -67,7 +68,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 
 
 	public SoldItem getForStockItem(long stockItemId) {
-	    for (SoldItem item : rows) {
+	    for (SoldItem item : currentSale.getSoldItems()) {
 	        if (item.getStockItem().getId().equals(stockItemId)) {
 	            return item;
 	        }
@@ -95,7 +96,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 
         } else {
             validateQuantityInStock(soldItem.getStockItem(), soldItem.getQuantity());
-            rows.add(soldItem);
+            currentSale.getSoldItems().add(soldItem);
             log.debug("Added " + soldItem.getName()
                     + " quantity of " + soldItem.getQuantity());
         }
@@ -108,7 +109,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
      */
     public double getTotalPrice() {
         double price = 0.0;
-        for (SoldItem item : rows) {
+        for (SoldItem item : currentSale.getSoldItems()) {
             price += item.getSum();
         }
         return price;
@@ -136,13 +137,19 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
      * (Used by the history details table in the HistoryTab).
      */
     public void showSale(Sale sale) {
-        this.rows = new ArrayList<SoldItem>(sale.getSoldItems());
+        currentSale.setSoldItems( (Set<SoldItem>) new ArrayList<SoldItem>(sale.getSoldItems()));
         fireTableDataChanged();
     }
 
 	@Override
-	public List<SoldItem> getTableRows() {
-		return rows;
+	public Set<SoldItem> getTableRows() {
+		return currentSale.getSoldItems();
+	}
+
+	@Override
+	public List<SoldItem> getRows() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
